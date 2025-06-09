@@ -1,26 +1,29 @@
 // swift-tools-version: 6.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
-    name: "CameraKit",
+    name: "PickerKit",
     platforms: [
-        .iOS(.v15)
+        .iOS(.v15),
+        .tvOS(.v15),
+        .watchOS(.v8),
+        .macOS(.v12),
+        .visionOS(.v1)
     ],
     products: [
         .library(
-            name: "CameraKit",
-            targets: ["CameraKit"]
+            name: "PickerKit",
+            targets: ["PickerKit"]
         )
     ],
     targets: [
         .target(
-            name: "CameraKit"
+            name: "PickerKit"
         ),
         .testTarget(
-            name: "CameraKitTests",
-            dependencies: ["CameraKit"]
+            name: "PickerKitTests",
+            dependencies: ["PickerKit"]
         )
     ]
 )

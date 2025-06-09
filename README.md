@@ -3,26 +3,26 @@
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/github/v/release/danielsaidi/CameraKit?color=%2300550&sort=semver" alt="Version" />
+    <img src="https://img.shields.io/github/v/release/danielsaidi/PickerKit?color=%2300550&sort=semver" alt="Version" />
     <img src="https://img.shields.io/badge/swift-6.0-orange.svg" alt="Swift 6.0" />
-    <a href="https://danielsaidi.github.io/CameraKit"><img src="https://img.shields.io/badge/documentation-web-blue.svg" alt="Documentation" /></a>
-    <a href="https://github.com/danielsaidi/CameraKit/blob/master/LICENSE"><img src="https://img.shields.io/github/license/danielsaidi/CameraKit" alt="MIT License" /></a>
+    <a href="https://danielsaidi.github.io/PickerKit"><img src="https://img.shields.io/badge/documentation-web-blue.svg" alt="Documentation" /></a>
+    <a href="https://github.com/danielsaidi/PickerKit/blob/master/LICENSE"><img src="https://img.shields.io/github/license/danielsaidi/PickerKit" alt="MIT License" /></a>
     <a href="https://github.com/sponsors/danielsaidi"><img src="https://img.shields.io/badge/sponsor-GitHub-red.svg" alt="Sponsor my work" /></a>
 </p>
 
 
-# CameraKit
+# PickerKit
 
-CameraKit is a SwiftUI library with camera pickers and document scanners.
+PickerKit is a SwiftUI library with various pickers, cameras, document scanners, etc.
 
 
 
 ## Installation
 
-CameraKit can be installed with the Swift Package Manager:
+PickerKit can be installed with the Swift Package Manager:
 
 ```
-https://github.com/danielsaidi/CameraKit.git
+https://github.com/danielsaidi/PickerKit.git
 ```
 
 
@@ -35,7 +35,34 @@ You can [become a sponsor][Sponsors] to help me dedicate more time on my various
 
 ## Getting Started
 
-TBD...
+### Image Pickers
+
+PickerKit has an `ImagePicker`, a `Camera`, and a `DocumentScanner` that can be used to pick images in various ways. They are just regular view that can be created as separate views, in a modal, etc.
+
+```swift
+struct MyView: View {
+
+    @State var image: Image?
+    @State var isCameraPresented = false
+    
+    var body: some View {
+        VStack {
+            image
+            Button("Pick Image") {
+                isCameraPresented = true
+            }
+        }
+        .fullScreenCover(isPresented: $isCameraPresented) {
+            Camera(isPresented: $isCameraPresented) { result in
+                switch result {
+                case .failure(let error): print(error)
+                case .success(let uiImage): image = Image(uiImage: uiImage)
+                }
+            }
+        }
+    }
+}
+```
 
 
 
@@ -64,7 +91,7 @@ Feel free to reach out if you have questions, or want to contribute in any way:
 
 ## License
 
-CameraKit is available under the MIT license. See the [LICENSE][License] file for more info.
+PickerKit is available under the MIT license. See the [LICENSE][License] file for more info.
 
 
 
@@ -78,6 +105,6 @@ CameraKit is available under the MIT license. See the [LICENSE][License] file fo
 [Mastodon]: https://mastodon.social/@danielsaidi
 [Twitter]: https://twitter.com/danielsaidi
 
-[Documentation]: https://danielsaidi.github.io/CameraKit
-[Getting-Started]: https://danielsaidi.github.io/CameraKit/documentation/camerakit/getting-started
-[License]: https://github.com/danielsaidi/CameraKit/blob/master/LICENSE
+[Documentation]: https://danielsaidi.github.io/PickerKit
+[Getting-Started]: https://danielsaidi.github.io/PickerKit/documentation/Pickerkit/getting-started
+[License]: https://github.com/danielsaidi/PickerKit/blob/master/LICENSE

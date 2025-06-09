@@ -48,8 +48,8 @@ PickerKit is available under the MIT license.
 
 ### Essentials
 
-- ``CameraPicker``
-- ``DocumentCameraPicker``
+- ``Camera``
+- ``DocumentScanner``
 - ``ImagePicker``
 
 
