@@ -40,7 +40,7 @@ public struct DocumentScanner: UIViewControllerRepresentable {
         self.action = action
     }
 
-    public typealias Result = ImagePickerResult<VNDocumentCameraScan, Error>
+    public typealias Result = CancellableResult<VNDocumentCameraScan, Error>
     public typealias ResultAction = (Result) -> Void
 
     private let isPresented: Binding<Bool>?

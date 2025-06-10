@@ -50,7 +50,7 @@ public struct ImagePicker: UIViewControllerRepresentable {
     }
     
     public typealias PickerConfig = (UIImagePickerController) -> Void
-    public typealias Result = ImagePickerResult<ImageRepresentable, ImagePicker.PickerError>
+    public typealias Result = CancellableResult<ImageRepresentable, ImagePicker.PickerError>
     public typealias ResultAction = (Result) -> Void
     public typealias SourceType = UIImagePickerController.SourceType
 
@@ -72,20 +72,6 @@ public struct ImagePicker: UIViewControllerRepresentable {
     }
 
     public func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-}
-
-/// This enum is used by all image pickers, even though they
-/// may return different kinds of values.
-public enum ImagePickerResult<Value, Error> {
-
-    /// The operation was cancelled.
-    case cancelled
-
-    /// The operation failed.
-    case failure(Error)
-
-    /// The operation succeeded.
-    case success(Value)
 }
 
 public extension ImagePicker {

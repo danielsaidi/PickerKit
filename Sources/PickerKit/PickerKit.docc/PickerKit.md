@@ -56,10 +56,6 @@ PickerKit is available under the MIT license.
 
 ## Topics
 
-### Bindings
-
-- ``OptionalBinding(_:_:)``
-
 ### Colors
 
 - ``ColorPickerBar``
@@ -69,6 +65,10 @@ PickerKit is available under the MIT license.
 - ``Camera``
 - ``DocumentScanner``
 - ``ImagePicker``
+
+### Values
+
+- ``OptionalBinding(_:_:)``
 
 
 
