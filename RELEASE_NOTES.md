@@ -17,3 +17,4 @@ This is the first public release of PickerKit.
 * ``DocumentScanner`` can be used to scan documents and handle them as images.
 * ``FilePicker`` can be used to pick any file from the Files app.
 * ``ImagePicker`` can be used to pick images from the user's photo library.
+* ``MultiPicker`` can be used to pick multiple items in e.g. a list or form.

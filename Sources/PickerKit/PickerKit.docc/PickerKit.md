@@ -35,6 +35,7 @@ PickerKit has many pickers and picker-related views.
 * ``DocumentScanner`` can be used to scan documents and handle them as images.
 * ``FilePicker`` can be used to pick any file from the Files app.
 * ``ImagePicker`` can be used to pick images from the user's photo library.
+* ``MultiPicker`` can be used to pick multiple items in e.g. a list or form.
 
 Note that you must add the proper permissions to be able to access the camera, photo album, files, etc. See the documentation for each view for more information.
 
@@ -58,6 +59,15 @@ PickerKit is available under the MIT license.
 
 - ``ColorPickerBar``
 
+### Files
+
+- ``FilePicker``
+
+### General
+
+- ``MultiPicker``
+- ``MultiPickerItem``
+
 ### Images
 
 - ``Camera``
@@ -66,6 +76,7 @@ PickerKit is available under the MIT license.
 
 ### Values
 
+- ``CancellableResult``
 - ``OptionalBinding(_:_:)``
 
 
