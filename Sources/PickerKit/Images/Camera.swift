@@ -24,6 +24,9 @@ import SwiftUI
 ///
 /// If you pass in an external `isPresented` state, the view
 /// will automatically dismiss itself when it's done.
+///
+/// > Important: The view requires the following permissions:
+/// `NSCameraUsageDescription`.
 public struct Camera: View {
 
     /// Create a photo camera.

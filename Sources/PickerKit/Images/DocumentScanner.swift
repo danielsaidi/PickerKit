@@ -22,6 +22,9 @@ import VisionKit
 ///
 /// If you pass in an external `isPresented` state, the view
 /// will automatically dismiss itself when it's done.
+///
+/// > Important: The view requires the following permissions:
+/// `NSCameraUsageDescription`.
 public struct DocumentScanner: UIViewControllerRepresentable {
 
     /// Create a document scanner.
@@ -83,6 +86,7 @@ public extension DocumentScanner {
             _ controller: VNDocumentCameraViewController
         ) {
             action(.cancelled)
+            tryDismiss()
         }
         
         public func documentCameraViewController(
@@ -90,6 +94,7 @@ public extension DocumentScanner {
             didFailWithError error: Error
         ) {
             action(.failure(error))
+            tryDismiss()
         }
         
         public func documentCameraViewController(
@@ -97,10 +102,21 @@ public extension DocumentScanner {
             didFinishWith scan: VNDocumentCameraScan
         ) {
             action(.success(scan))
+            tryDismiss()
         }
 
-        public func tryDismissPicker() {
+        public func tryDismiss() {
             isPresented?.wrappedValue = false
+        }
+    }
+}
+
+public extension VNDocumentCameraScan {
+
+    /// Get all the images from the scan.
+    var images: [UIImage] {
+        (0..<pageCount).compactMap {
+            imageOfPage(at: $0)
         }
     }
 }

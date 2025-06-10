@@ -31,8 +31,8 @@ public struct ColorPickerBar: View {
     ///   - value: An optional color value binding.
     public init(
         _ title: String.LocalizationValue = "Pick Color",
-        axis: Axis = .horizontal,
         titleBundle: Bundle = .main,
+        axis: Axis = .horizontal,
         value: Binding<Color?>
     ) {
         self.title = title
@@ -50,8 +50,8 @@ public struct ColorPickerBar: View {
     ///   - value: An non-optional color value binding.
     public init(
         _ title: String.LocalizationValue,
-        axis: Axis = .horizontal,
         titleBundle: Bundle = .main,
+        axis: Axis = .horizontal,
         value: Binding<Color>
     ) {
         self.title = title
@@ -160,11 +160,11 @@ private extension ColorPickerBar {
                 .resizable()
                 .frame(width: style.colorSize, height: style.colorSize)
         }
-        .padding(.leading, style.spacing)
+        .padding(resetButtonPaddingEdge, style.spacing)
     }
 
     var resetButtonPaddingEdge: Edge.Set {
-        axis == .horizontal ? .leading : .top
+        axis == .horizontal ? .horizontal : .vertical
     }
 
     var scrollView: some View {

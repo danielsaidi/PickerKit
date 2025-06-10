@@ -83,19 +83,6 @@ public extension ImagePicker {
 }
 
 public extension ImagePicker {
-
-    /// Get all source types that work with the picker.
-    static var allSourceTypes: [SourceType] {
-        [.camera, .photoLibrary, .savedPhotosAlbum]
-    }
-
-    /// Get all source types that are enabled for the picker.
-    static var availableSourceTypes: [SourceType] {
-        allSourceTypes.filter(UIImagePickerController.isSourceTypeAvailable)
-    }
-}
-
-public extension ImagePicker {
     
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
@@ -114,9 +101,9 @@ public extension ImagePicker {
             _ picker: UIImagePickerController
         ) {
             action(.cancelled)
-            tryDismissPicker()
+            tryDismiss()
         }
-        
+
         public func imagePickerController(
             _ picker: UIImagePickerController,
             didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
@@ -127,10 +114,10 @@ public extension ImagePicker {
                 let error = PickerError.missingPickedImage
                 action(.failure(error))
             }
-            tryDismissPicker()
+            tryDismiss()
         }
 
-        public func tryDismissPicker() {
+        public func tryDismiss() {
             isPresented?.wrappedValue = false
         }
     }
