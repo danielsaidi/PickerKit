@@ -10,6 +10,7 @@ A SwiftUI library with various pickers, cameras, document scanners, etc.
 PickerKit is a SwiftUI library with various pickers, cameras, document scanners, etc.
 
 
+
 ## Installation
 
 PickerKit can be installed with the Swift Package Manager:
@@ -63,16 +64,16 @@ PickerKit is available under the MIT license.
 
 - ``FilePicker``
 
-### General
-
-- ``MultiPicker``
-- ``MultiPickerItem``
-
 ### Images
 
 - ``Camera``
 - ``DocumentScanner``
 - ``ImagePicker``
+
+### Utilities
+
+- ``MultiPicker``
+- ``MultiPickerItem``
 
 ### Values
 
