@@ -37,7 +37,7 @@ You can [become a sponsor][Sponsors] to help me dedicate more time on my various
 
 ### Image Pickers
 
-PickerKit has an `ImagePicker`, a `Camera`, and a `DocumentScanner` that can be used to pick images in various ways. They are just regular view that can be created as separate views, in a modal, etc.
+PickerKit has an `ImagePicker`, a `Camera`, and a `DocumentScanner` that can pick images:
 
 ```swift
 struct MyView: View {
@@ -46,11 +46,18 @@ struct MyView: View {
     @State var isCameraPresented = false
     
     var body: some View {
-        VStack {
-            image
-            Button("Pick Image") {
-                isCameraPresented = true
+        ScrollView {
+            image?
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .clipShape(.rect(cornerRadius: 10))
+        }
+        .padding()
+        .safeAreaInset(edge: .bottom) {
+            Button("Take Photo") {
+                isPresented.wrappedValue = true
             }
+            .buttonStyle(.borderedProminent)
         }
         .fullScreenCover(isPresented: $isCameraPresented) {
             Camera(isPresented: $isCameraPresented) { result in
@@ -59,10 +66,13 @@ struct MyView: View {
                 case .success(let uiImage): image = Image(uiImage: uiImage)
                 }
             }
+            .ignoresSafeArea()
         }
     }
 }
 ```
+
+These pickers all work in the same way, and will call the result action with their unique result. If you pass in an `isPresented` binding, these pickers will automatically dismiss themselves when they're done.
 
 
 

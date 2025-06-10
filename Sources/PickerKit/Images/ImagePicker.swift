@@ -14,17 +14,17 @@ import UIKit
 /// This image picker can be used to pick photos from Photos,
 /// pick a photo with the camera, etc.
 ///
-/// You can create this view with a result action as well as
-/// an optional `isPresented` state, to make it auto-dismiss:
-///
 /// ```swift
 /// let picker = ImagePicker(
 ///     sourceType: .photoAlbum,
-///     isPresented: $isImagePickerPresented,       // Optional
-///     cancelAction: { print("User did cancel") }, // Optional
-///     resultAction: { result in ... })            // Mandatory
-/// }
+///     isPresented: $isPickerPresented, // Optional
+///     pickerConfig: { picker in ... }, // Optional
+///     action: { result in ... }        // Mandatory
+/// )
 /// ```
+///
+/// If you pass in an external `isPresented` state, the view
+/// will automatically dismiss itself when it's done.
 ///
 /// This view uses a `UIImagePickerController` and registers
 /// itself as the picker delegate.
@@ -36,40 +36,31 @@ public struct ImagePicker: UIViewControllerRepresentable {
     ///   - sourceType: The image source type to pick.
     ///   - isPresented: An external presented state, if any.
     ///   - pickerConfig: A custom picker configuration, if any.
-    ///   - cancelAction: The cancel action to trigger, if any.
-    ///   - resultAction: The result action to trigger, if any.
+    ///   - action: The action to use to handle the picker result.
     public init(
         sourceType: UIImagePickerController.SourceType,
         isPresented: Binding<Bool>? = nil,
         pickerConfig: @escaping PickerConfig = { _ in },
-        cancelAction: @escaping CancelAction = {},
-        resultAction: @escaping ResultAction
+        action: @escaping ResultAction
     ) {
         self.sourceType = sourceType
         self.isPresented = isPresented
         self.pickerConfig = pickerConfig
-        self.cancelAction = cancelAction
-        self.resultAction = resultAction
+        self.action = action
     }
     
     public typealias PickerConfig = (UIImagePickerController) -> Void
-    public typealias PickerResult = Result<ImageRepresentable, Error>
-    public typealias CancelAction = () -> Void
-    public typealias ResultAction = (PickerResult) -> Void
+    public typealias Result = ImagePickerResult<ImageRepresentable, ImagePicker.PickerError>
+    public typealias ResultAction = (Result) -> Void
     public typealias SourceType = UIImagePickerController.SourceType
 
     private let sourceType: UIImagePickerController.SourceType
     private let isPresented: Binding<Bool>?
     private let pickerConfig: PickerConfig
-    private let cancelAction: CancelAction
-    private let resultAction: ResultAction
+    private let action: ResultAction
         
     public func makeCoordinator() -> Coordinator {
-        Coordinator(
-            isPresented: isPresented,
-            cancelAction: cancelAction,
-            resultAction: resultAction
-        )
+        .init(isPresented: isPresented, action: action)
     }
 
     public func makeUIViewController(context: Context) -> UIImagePickerController {
@@ -81,6 +72,20 @@ public struct ImagePicker: UIViewControllerRepresentable {
     }
 
     public func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+}
+
+/// This enum is used by all image pickers, even though they
+/// may return different kinds of values.
+public enum ImagePickerResult<Value, Error> {
+
+    /// The operation was cancelled.
+    case cancelled
+
+    /// The operation failed.
+    case failure(Error)
+
+    /// The operation succeeded.
+    case success(Value)
 }
 
 public extension ImagePicker {
@@ -113,22 +118,19 @@ public extension ImagePicker {
 
         public init(
             isPresented: Binding<Bool>?,
-            cancelAction: @escaping ImagePicker.CancelAction,
-            resultAction: @escaping ImagePicker.ResultAction
+            action: @escaping ImagePicker.ResultAction
         ) {
             self.isPresented = isPresented
-            self.cancelAction = cancelAction
-            self.resultAction = resultAction
+            self.action = action
         }
 
         private let isPresented: Binding<Bool>?
-        private let cancelAction: ImagePicker.CancelAction
-        private let resultAction: ImagePicker.ResultAction
+        private let action: ImagePicker.ResultAction
 
         public func imagePickerControllerDidCancel(
             _ picker: UIImagePickerController
         ) {
-            cancelAction()
+            action(.cancelled)
             tryDismissPicker()
         }
         
@@ -137,10 +139,10 @@ public extension ImagePicker {
             didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
         ) {
             if let image = info[.originalImage] as? UIImage {
-                resultAction(.success(image))
+                action(.success(image))
             } else {
                 let error = PickerError.missingPickedImage
-                resultAction(.failure(error))
+                action(.failure(error))
             }
             tryDismissPicker()
         }
@@ -149,5 +151,59 @@ public extension ImagePicker {
             isPresented?.wrappedValue = false
         }
     }
+}
+
+struct ImagePickerPreview: View {
+
+    let image: Image?
+    let buttonTitle: String
+    let isPresented: Binding<Bool>
+
+    var body: some View {
+        ScrollView {
+            image?
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .clipShape(.rect(cornerRadius: 10))
+        }
+        .padding()
+        .safeAreaInset(edge: .bottom) {
+            Button(buttonTitle) {
+                isPresented.wrappedValue = true
+            }
+            .buttonStyle(.borderedProminent)
+        }
+    }
+}
+
+#Preview {
+    struct MyView: View {
+
+        @State var image: Image?
+        @State var isPresented = false
+
+        var body: some View {
+            ImagePickerPreview(
+                image: image,
+                buttonTitle: "Pick Image",
+                isPresented: $isPresented
+            )
+            .fullScreenCover(isPresented: $isPresented) {
+                ImagePicker(
+                    sourceType: .photoLibrary,
+                    isPresented: $isPresented
+                ) { result in
+                    switch result {
+                    case .cancelled: print("Cancelled")
+                    case .failure(let error): print(error)
+                    case .success(let uiImage): image = Image(uiImage: uiImage)
+                    }
+                }
+                .ignoresSafeArea()
+            }
+        }
+    }
+
+    return MyView()
 }
 #endif

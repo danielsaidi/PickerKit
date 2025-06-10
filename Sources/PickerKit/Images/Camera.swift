@@ -17,11 +17,13 @@ import SwiftUI
 ///
 /// ```swift
 /// let picker = Camera(
-///     isPresented: $isCameraPresented,            // Optional
-///     cancelAction: { print("User did cancel") }, // Optional
-///     finishAction: { result in ... })            // Mandatory
+///     isPresented: $isCameraPresented, // Optional
+///     action: { result in ... })       // Mandatory
 /// }
 /// ```
+///
+/// If you pass in an external `isPresented` state, the view
+/// will automatically dismiss itself when it's done.
 ///
 /// This view uses an ``ImagePicker`` with a `.camera` setup.
 public struct Camera: View {
@@ -30,30 +32,23 @@ public struct Camera: View {
     ///
     /// - Parameters:
     ///   - isPresented: An external presented state, if any.
-    ///   - cancelAction: The action to trigger when the operation is cancelled.
-    ///   - resultAction: The action to trigger when the operation is completed.
+    ///   - action: The action to use to handle the camera result.
     public init(
         isPresented: Binding<Bool>? = nil,
-        cancelAction: @escaping ImagePicker.CancelAction = {},
-        resultAction: @escaping ImagePicker.ResultAction
+        action: @escaping ImagePicker.ResultAction
     ) {
         self.isPresented = isPresented
-        self.cancelAction = cancelAction
-        self.resultAction = resultAction
+        self.action = action
     }
     
-    public typealias CameraResult = ImagePicker.PickerResult
-
     private let isPresented: Binding<Bool>?
-    private let cancelAction: ImagePicker.CancelAction
-    private let resultAction: ImagePicker.ResultAction
+    private let action: ImagePicker.ResultAction
         
     public var body: some View {
         ImagePicker(
             sourceType: .camera,
             isPresented: isPresented,
-            cancelAction: cancelAction,
-            resultAction: resultAction
+            action: action
         )
     }
 }
@@ -62,22 +57,23 @@ public struct Camera: View {
     struct MyView: View {
 
         @State var image: Image?
-        @State var isCameraPresented = false
+        @State var isPresented = false
 
         var body: some View {
-            VStack {
-                image
-                Button("Pick Image") {
-                    isCameraPresented = true
-                }
-            }
-            .fullScreenCover(isPresented: $isCameraPresented) {
-                Camera(isPresented: $isCameraPresented) { result in
+            ImagePickerPreview(
+                image: image,
+                buttonTitle: "Take Photo",
+                isPresented: $isPresented
+            )
+            .fullScreenCover(isPresented: $isPresented) {
+                Camera(isPresented: $isPresented) { result in
                     switch result {
+                    case .cancelled: print("Cancelled")
                     case .failure(let error): print(error)
                     case .success(let uiImage): image = Image(uiImage: uiImage)
                     }
                 }
+                .ignoresSafeArea()
             }
         }
     }

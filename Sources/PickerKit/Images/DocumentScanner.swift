@@ -13,18 +13,17 @@ import VisionKit
 /// This document scanner can scan one or several pages of a
 /// physical document.
 ///
-/// You can create this view with a result action as well as
-/// an optional `isPresented` state, to make it auto-dismiss:
-///
 /// ```swift
 /// let camera = DocumentScanner(
-///     isPresented: $isScannerPresented,           // Optional
-///     cancelAction: { print("User did cancel") }  // Optional
-///     resultAction: { result in ... }             // Mandatory
-/// }
+///     isPresented: $isScannerPresented, // Optional
+///     action: { result in ... }         // Mandatory
+/// )
 /// ```
 ///
-/// This picker uses a `VNDocumentCameraViewController` that
+/// If you pass in an external `isPresented` state, the view
+/// will automatically dismiss itself when it's done.
+///
+/// This scanner uses a `VNDocumentCameraViewController` and
 /// will return a `VNDocumentCameraScan` with all scan pages.
 public struct DocumentScanner: UIViewControllerRepresentable {
 
@@ -32,31 +31,25 @@ public struct DocumentScanner: UIViewControllerRepresentable {
     ///
     /// - Parameters:
     ///   - isPresented: An external presented state, if any.
-    ///   - cancelAction: The action to trigger when the scan is cancelled.
-    ///   - resultAction: The action to trigger when the scan is completed.
+    ///   - action: The action to use to handle the scan result.
     public init(
         isPresented: Binding<Bool>? = nil,
-        cancelAction: @escaping CancelAction = {},
-        resultAction: @escaping ResultAction
+        action: @escaping ResultAction
     ) {
         self.isPresented = isPresented
-        self.cancelAction = cancelAction
-        self.resultAction = resultAction
+        self.action = action
     }
-    
-    public typealias CameraResult = Result<VNDocumentCameraScan, Error>
-    public typealias CancelAction = () -> Void
-    public typealias ResultAction = (CameraResult) -> Void
+
+    public typealias Result = ImagePickerResult<VNDocumentCameraScan, Error>
+    public typealias ResultAction = (Result) -> Void
 
     private let isPresented: Binding<Bool>?
-    private let cancelAction: CancelAction
-    private let resultAction: ResultAction
-        
+    private let action: (Result) -> Void
+
     public func makeCoordinator() -> Coordinator {
         Coordinator(
             isPresented: isPresented,
-            cancelAction: cancelAction,
-            resultAction: resultAction
+            action: action
         )
     }
     
@@ -80,41 +73,66 @@ public extension DocumentScanner {
         
         public init(
             isPresented: Binding<Bool>?,
-            cancelAction: @escaping DocumentScanner.CancelAction,
-            resultAction: @escaping DocumentScanner.ResultAction
+            action: @escaping DocumentScanner.ResultAction
         ) {
             self.isPresented = isPresented
-            self.cancelAction = cancelAction
-            self.resultAction = resultAction
+            self.action = action
         }
 
         private let isPresented: Binding<Bool>?
-        private let cancelAction: DocumentScanner.CancelAction
-        private let resultAction: DocumentScanner.ResultAction
+        private let action: DocumentScanner.ResultAction
 
         public func documentCameraViewControllerDidCancel(
             _ controller: VNDocumentCameraViewController
         ) {
-            cancelAction()
+            action(.cancelled)
         }
         
         public func documentCameraViewController(
             _ controller: VNDocumentCameraViewController,
             didFailWithError error: Error
         ) {
-            resultAction(.failure(error))
+            action(.failure(error))
         }
         
         public func documentCameraViewController(
             _ controller: VNDocumentCameraViewController,
             didFinishWith scan: VNDocumentCameraScan
         ) {
-            resultAction(.success(scan))
+            action(.success(scan))
         }
 
         public func tryDismissPicker() {
             isPresented?.wrappedValue = false
         }
     }
+}
+
+#Preview {
+    struct MyView: View {
+
+        @State var image: Image?
+        @State var isPresented = false
+
+        var body: some View {
+            ImagePickerPreview(
+                image: image,
+                buttonTitle: "Scan Document",
+                isPresented: $isPresented
+            )
+            .fullScreenCover(isPresented: $isPresented) {
+                DocumentScanner(isPresented: $isPresented) { result in
+                    switch result {
+                    case .cancelled: print("Cancelled")
+                    case .failure(let error): print(error)
+                    case .success(let result): image = Image(uiImage: result.imageOfPage(at: 0))
+                    }
+                }
+                .ignoresSafeArea()
+            }
+        }
+    }
+
+    return MyView()
 }
 #endif
