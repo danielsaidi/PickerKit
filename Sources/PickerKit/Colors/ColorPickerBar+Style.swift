@@ -8,7 +8,7 @@
 
 import Foundation
 
-#if os(iOS) || os(macOS)
+#if os(iOS) || os(macOS) || os(visionOS)
 import SwiftUI
 
 public extension ColorPickerBar {
@@ -57,7 +57,6 @@ public extension ColorPickerBar {
 
 public extension ColorPickerBar.Style {
 
-
     /// The standard color picked bar style.
     static var standard: Self { .init() }
 }
@@ -72,21 +71,8 @@ public extension View {
     }
 }
 
-private extension ColorPickerBar.Style {
-
-    struct Key: EnvironmentKey {
-
-        public static var defaultValue: ColorPickerBar.Style {
-            .standard
-        }
-    }
-}
-
 public extension EnvironmentValues {
 
-    var colorPickerBarStyle: ColorPickerBar.Style {
-        get { self [ColorPickerBar.Style.Key.self] }
-        set { self [ColorPickerBar.Style.Key.self] = newValue }
-    }
+    @Entry var colorPickerBarStyle = ColorPickerBar.Style.standard
 }
 #endif

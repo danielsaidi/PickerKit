@@ -100,18 +100,6 @@ public struct MultiPickerItem<Content: View>: View {
     }
 }
 
-private extension View {
-
-    @ViewBuilder
-    func withTitle(_ title: String) -> some View {
-        #if os(iOS) || os(tvOS) || os(watchOS)
-        self.navigationBarTitle(title)
-        #else
-        self
-        #endif
-    }
-}
-
 #Preview {
 
     struct PreviewModel: Identifiable {
@@ -136,7 +124,7 @@ private extension View {
                         }
                     }
                 }
-                .withTitle("Pick multiple items")
+                .navigationTitle("Pick multiple items")
             }
         }
     }

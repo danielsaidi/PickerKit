@@ -8,7 +8,7 @@
 
 import Foundation
 
-#if os(iOS) || os(macOS)
+#if os(iOS) || os(macOS) || os(visionOS)
 import SwiftUI
 
 /// This color picker will present a SwiftUI color picker in
