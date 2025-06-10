@@ -27,14 +27,17 @@ public struct ColorPickerBar: View {
     /// - Parameters:
     ///   - title: The picker title, by default "Pick Color".
     ///   - titleBundle: The picker title localization bundle, by default `.main`.
+    ///   - axis: The picker axis, by default `.horizontal`.
     ///   - value: An optional color value binding.
     public init(
         _ title: String.LocalizationValue = "Pick Color",
+        axis: Axis = .horizontal,
         titleBundle: Bundle = .main,
         value: Binding<Color?>
     ) {
         self.title = title
         self.titleBundle = titleBundle
+        self.axis = axis
         self.value = value
     }
 
@@ -43,14 +46,17 @@ public struct ColorPickerBar: View {
     /// - Parameters:
     ///   - title: The picker title, by default "Pick Color".
     ///   - titleBundle: The picker title localization bundle, by default `.main`.
+    ///   - axis: The picker axis, by default `.horizontal`.
     ///   - value: An non-optional color value binding.
     public init(
         _ title: String.LocalizationValue,
+        axis: Axis = .horizontal,
         titleBundle: Bundle = .main,
         value: Binding<Color>
     ) {
         self.title = title
         self.titleBundle = titleBundle
+        self.axis = axis
         self.value = .init(get: {
             value.wrappedValue
         }, set: {
@@ -60,6 +66,7 @@ public struct ColorPickerBar: View {
 
     private let title: String.LocalizationValue
     private let titleBundle: Bundle
+    private let axis: Axis
     private let value: Binding<Color?>
     
     @Environment(\.colorPickerBarConfig)
@@ -72,19 +79,32 @@ public struct ColorPickerBar: View {
     private var colorScheme
 
     public var body: some View {
-        HStack(spacing: 0) {
-            picker
-            if !config.barColors.isEmpty {
-                divider
-                scrollView
+        if axis == .vertical {
+            VStack(spacing: 0) {
+                bodyContent
             }
-            if shouldShowResetButton {
-                divider
-                resetButton
+            .labelsHidden()
+            .frame(maxWidth: style.selectedColorSize)
+        } else {
+            HStack(spacing: 0) {
+                bodyContent
             }
+            .labelsHidden()
+            .frame(maxHeight: style.selectedColorSize)
         }
-        .labelsHidden()
-        .frame(maxHeight: style.selectedColorSize)
+    }
+
+    @ViewBuilder
+    var bodyContent: some View {
+        picker
+        if !config.barColors.isEmpty {
+            divider
+            scrollView
+        }
+        if shouldShowResetButton {
+            divider
+            resetButton
+        }
     }
 }
 
@@ -97,9 +117,14 @@ private extension ColorPickerBar {
             let size = scrollViewCircleSize(for: color)
             colorCircle(for: color)
                 .frame(width: size, height: size)
-                .padding(.vertical, isSelected(color) ? 0 : 5)
+                .padding(colorButtonPaddingEdge, isSelected(color) ? 0 : 5)
                 .animation(style.animation, value: value.wrappedValue)
-        }.buttonStyle(.plain)
+        }
+        .buttonStyle(.plain)
+    }
+
+    var colorButtonPaddingEdge: Edge.Set {
+        axis == .horizontal ? .vertical : .horizontal
     }
 
     @ViewBuilder
@@ -120,7 +145,11 @@ private extension ColorPickerBar {
             supportsOpacity: config.opacity
         )
         .fixedSize()
-        .padding(.trailing, style.spacing)
+        .padding(pickerPaddingEdge, style.spacing)
+    }
+
+    var pickerPaddingEdge: Edge.Set {
+        axis == .horizontal ? .trailing : .bottom
     }
 
     var resetButton: some View {
@@ -134,16 +163,48 @@ private extension ColorPickerBar {
         .padding(.leading, style.spacing)
     }
 
+    var resetButtonPaddingEdge: Edge.Set {
+        axis == .horizontal ? .leading : .top
+    }
+
     var scrollView: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        ScrollView(scrollViewAxis, showsIndicators: false) {
+            scrollViewStack
+                .padding(scrollViewStylePaddingEdge, style.spacing)
+                .padding(scrollViewStaticPaddingEdge, 2)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder
+    var scrollViewStack: some View {
+        if axis == .horizontal {
             HStack(spacing: style.spacing) {
-                ForEach(Array(config.barColors.enumerated()), id: \.offset) {
-                    colorButton(for: $0.element)
-                }
+                scrollViewStackContent
             }
-            .padding(.horizontal, style.spacing)
-            .padding(.vertical, 2)
-        }.frame(maxWidth: .infinity)
+        } else {
+            VStack(spacing: style.spacing) {
+                scrollViewStackContent
+            }
+        }
+    }
+
+    var scrollViewStackContent: some View {
+        ForEach(Array(config.barColors.enumerated()), id: \.offset) {
+            colorButton(for: $0.element)
+        }
+    }
+
+    var scrollViewAxis: Axis.Set {
+        axis == .horizontal ? .horizontal : .vertical
+    }
+
+    var scrollViewStylePaddingEdge: Edge.Set {
+        axis == .horizontal ? .horizontal : .vertical
+    }
+
+    var scrollViewStaticPaddingEdge: Edge.Set {
+        axis == .horizontal ? .vertical : .horizontal
     }
 
     @ViewBuilder
@@ -206,65 +267,71 @@ public extension Collection where Element == Color {
     }
 }
 
-#Preview {
+private struct Preview: View {
 
-    struct Preview: View {
+    let axis: Axis
 
-        @State
-        private var color1: Color = .red
+    @State var color1: Color = .red
+    @State var color2: Color = .yellow
+    @State var color3: Color = .purple
+    @State var color4: Color?
 
-        @State
-        private var color2: Color = .yellow
-
-        @State
-        private var color3: Color = .purple
-
-        @State
-        private var optionalColor: Color?
-
-        @State
-        var optionalDouble: Double?
-
-        var pickers: some View {
-            VStack(alignment: .leading) {
-                ColorPickerBar(
-                    "Pick Color",
-                    value: $color1
-                )
-                .colorPickerBarConfig(.init(
-                    barColors: [.red, .green, .blue]
-                ))
-                ColorPickerBar(
-                    "Pick Color",
-                    value: $color2
-                )
-                ColorPickerBar(
-                    "Pick Color",
-                    value: $color3
-                )
-                ColorPickerBar(
-                    "Pick Color",
-                    value: $optionalColor
-                )
-                .colorPickerBarConfig(.init(
-                    barColors: .colorPickerBarColors(withClearColor: true),
-                    opacity: false,
-                    resetButton: true,
-                    resetValue: nil
-                ))
-            }
-        }
-
-        var body: some View {
-            VStack {
-                pickers
-                pickers
-                    .background(Color.black)
-                    .colorScheme(.dark)
-            }
+    @ViewBuilder
+    var pickerStack: some View {
+        switch axis {
+        case .horizontal: VStack { pickerStackContent }
+        case .vertical: HStack { pickerStackContent }
         }
     }
 
-    return Preview()
+    @ViewBuilder
+    var pickerStackContent: some View {
+        ColorPickerBar(
+            "Pick Color",
+            axis: axis,
+            value: $color1
+        )
+        .colorPickerBarConfig(.init(
+            barColors: [.red, .green, .blue]
+        ))
+        ColorPickerBar(
+            "Pick Color",
+            axis: axis,
+            value: $color2
+        )
+        ColorPickerBar(
+            "Pick Color",
+            axis: axis,
+            value: $color3
+        )
+        ColorPickerBar(
+            "Pick Color",
+            axis: axis,
+            value: $color4
+        )
+        .colorPickerBarConfig(.init(
+            barColors: .colorPickerBarColors(withClearColor: true),
+            opacity: false,
+            resetButton: true,
+            resetValue: nil
+        ))
+    }
+
+    var body: some View {
+        VStack {
+            pickerStack
+            pickerStack
+                .background(Color.black)
+                .colorScheme(.dark)
+        }
+    }
+}
+
+#Preview("Horizontal") {
+    Preview(axis: .horizontal)
+}
+
+#Preview("Vertical") {
+    Preview(axis: .vertical)
 }
 #endif
