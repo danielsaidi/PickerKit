@@ -35,17 +35,15 @@ You can [become a sponsor][Sponsors] to help me dedicate more time on my various
 
 ## Getting Started
 
-### Colors
+PickerKit has many pickers and picker-related views.
 
-PickerKit has a ``ColorPickerBar`` that adds a color picker to a bar with additional colors.
+* ``Camera`` can be used to take photos and handle them as images.
+* ``ColorPickerBar`` adds a color picker to a horizontal or vertical bar with additional colors.
+* ``DocumentScanner`` can be used to scan documents and handle them as images.
+* ``FilePicker`` can be used to pick any file from the Files app.
+* ``ImagePicker`` can be used to pick images from the user's photo library.
 
-The ``ColorPickerBar`` supports optional and non-optional bindings, and can be configured and styled to great extent.
-
-### Images
-
-PickerKit has an ``ImagePicker``, a ``Camera``, and a ``DocumentScanner`` that can be used to "pick" images in various ways.
-
-These pickers all work in the same way, and will call the result action with their unique result. If you pass in an `isPresented` binding, these pickers will automatically dismiss themselves when they're done.
+Note that you must add the proper permissions to be able to access the camera, photo album, files, etc. See the documentation for each view for more information.
 
 
 

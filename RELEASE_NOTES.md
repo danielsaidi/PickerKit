@@ -12,6 +12,8 @@ This is the first public release of PickerKit.
 
 ### ✨ Features
 
-* `Camera` is a camera-based image picker.
-* `DocumentScanner` is a Vision-based document scanner.
-* `ImagePicker` is a UIKit image picker wrapper.
+* ``Camera`` can be used to take photos and handle them as images.
+* ``ColorPickerBar`` adds a color picker to a horizontal or vertical bar with additional colors.
+* ``DocumentScanner`` can be used to scan documents and handle them as images.
+* ``FilePicker`` can be used to pick any file from the Files app.
+* ``ImagePicker`` can be used to pick images from the user's photo library.

@@ -15,16 +15,13 @@ import VisionKit
 ///
 /// ```swift
 /// let camera = DocumentScanner(
-///     isPresented: $isScannerPresented, // Optional
-///     action: { result in ... }         // Mandatory
+///     isPresented: $isScannerPresented,
+///     action: { result in ... }
 /// )
 /// ```
 ///
 /// If you pass in an external `isPresented` state, the view
 /// will automatically dismiss itself when it's done.
-///
-/// This scanner uses a `VNDocumentCameraViewController` and
-/// will return a `VNDocumentCameraScan` with all scan pages.
 public struct DocumentScanner: UIViewControllerRepresentable {
 
     /// Create a document scanner.
@@ -40,7 +37,7 @@ public struct DocumentScanner: UIViewControllerRepresentable {
         self.action = action
     }
 
-    public typealias Result = CancellableResult<VNDocumentCameraScan, Error>
+    public typealias Result = CancellableResult<VNDocumentCameraScan>
     public typealias ResultAction = (Result) -> Void
 
     private let isPresented: Binding<Bool>?
@@ -109,7 +106,7 @@ public extension DocumentScanner {
 }
 
 #Preview {
-    struct MyView: View {
+    struct Preview: View {
 
         @State var image: Image?
         @State var isPresented = false
@@ -133,6 +130,6 @@ public extension DocumentScanner {
         }
     }
 
-    return MyView()
+    return Preview()
 }
 #endif

@@ -17,15 +17,13 @@ import SwiftUI
 ///
 /// ```swift
 /// let picker = Camera(
-///     isPresented: $isCameraPresented, // Optional
-///     action: { result in ... })       // Mandatory
+///     isPresented: $isCameraPresented,
+///     action: { result in ... })
 /// }
 /// ```
 ///
 /// If you pass in an external `isPresented` state, the view
 /// will automatically dismiss itself when it's done.
-///
-/// This view uses an ``ImagePicker`` with a `.camera` setup.
 public struct Camera: View {
 
     /// Create a photo camera.
@@ -54,7 +52,7 @@ public struct Camera: View {
 }
 
 #Preview {
-    struct MyView: View {
+    struct Preview: View {
 
         @State var image: Image?
         @State var isPresented = false
@@ -78,6 +76,6 @@ public struct Camera: View {
         }
     }
 
-    return MyView()
+    return Preview()
 }
 #endif

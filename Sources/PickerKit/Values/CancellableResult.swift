@@ -9,7 +9,7 @@
 import Foundation
 
 /// This enum represents a cancellable picker result value.
-public enum CancellableResult<Value, Error> {
+public enum CancellableResult<Value> {
 
     /// The operation was cancelled.
     case cancelled

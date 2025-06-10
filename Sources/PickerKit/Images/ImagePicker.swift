@@ -17,17 +17,14 @@ import UIKit
 /// ```swift
 /// let picker = ImagePicker(
 ///     sourceType: .photoAlbum,
-///     isPresented: $isPickerPresented, // Optional
-///     pickerConfig: { picker in ... }, // Optional
-///     action: { result in ... }        // Mandatory
+///     isPresented: $isPickerPresented,
+///     pickerConfig: { picker in ... },
+///     action: { result in ... }
 /// )
 /// ```
 ///
 /// If you pass in an external `isPresented` state, the view
 /// will automatically dismiss itself when it's done.
-///
-/// This view uses a `UIImagePickerController` and registers
-/// itself as the picker delegate.
 public struct ImagePicker: UIViewControllerRepresentable {
     
     /// Create an image picker.
@@ -50,7 +47,7 @@ public struct ImagePicker: UIViewControllerRepresentable {
     }
     
     public typealias PickerConfig = (UIImagePickerController) -> Void
-    public typealias Result = CancellableResult<ImageRepresentable, ImagePicker.PickerError>
+    public typealias Result = CancellableResult<ImageRepresentable>
     public typealias ResultAction = (Result) -> Void
     public typealias SourceType = UIImagePickerController.SourceType
 
@@ -151,8 +148,8 @@ struct ImagePickerPreview: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .clipShape(.rect(cornerRadius: 10))
+                .padding()
         }
-        .padding()
         .safeAreaInset(edge: .bottom) {
             Button(buttonTitle) {
                 isPresented.wrappedValue = true
@@ -163,7 +160,7 @@ struct ImagePickerPreview: View {
 }
 
 #Preview {
-    struct MyView: View {
+    struct Preview: View {
 
         @State var image: Image?
         @State var isPresented = false
@@ -190,6 +187,6 @@ struct ImagePickerPreview: View {
         }
     }
 
-    return MyView()
+    return Preview()
 }
 #endif
