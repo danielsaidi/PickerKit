@@ -26,44 +26,17 @@ You can [become a sponsor][Sponsors] to help me dedicate more time on my various
 
 
 
-## Getting started
+## Getting Started
 
-### Image Pickers
+### Colors
 
-PickerKit has an ``ImagePicker``, a ``Camera``, and a ``DocumentScanner`` that can be used to "pick" images in various ways:
+PickerKit has a ``ColorPickerBar`` that adds a color picker to a bar with additional colors.
 
-```swift
-struct MyView: View {
+The ``ColorPickerBar`` supports optional and non-optional bindings, and can be configured and styled to great extent.
 
-    @State var image: Image?
-    @State var isCameraPresented = false
-    
-    var body: some View {
-        ScrollView {
-            image?
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .clipShape(.rect(cornerRadius: 10))
-                .padding()  
-        }
-        .safeAreaInset(edge: .bottom) {
-            Button("Take Photo") {
-                isPresented.wrappedValue = true
-            }
-            .buttonStyle(.borderedProminent)
-        }
-        .fullScreenCover(isPresented: $isCameraPresented) {
-            Camera(isPresented: $isCameraPresented) { result in
-                switch result {
-                case .failure(let error): print(error)
-                case .success(let uiImage): image = Image(uiImage: uiImage)
-                }
-            }
-            .ignoresSafeArea()
-        }
-    }
-}
-```
+### Images
+
+PickerKit has an ``ImagePicker``, a ``Camera``, and a ``DocumentScanner`` that can be used to "pick" images in various ways.
 
 These pickers all work in the same way, and will call the result action with their unique result. If you pass in an `isPresented` binding, these pickers will automatically dismiss themselves when they're done.
 
@@ -82,6 +55,14 @@ PickerKit is available under the MIT license.
 
 
 ## Topics
+
+### Bindings
+
+- ``OptionalBinding(_:_:)``
+
+### Colors
+
+- ``ColorPickerBar``
 
 ### Images
 
