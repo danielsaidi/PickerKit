@@ -80,6 +80,16 @@ public extension ImagePicker {
     }
 
     typealias ImageRepresentable = UIImage
+
+    /// All source types that are enabled for the picker.
+    static var availableSourceTypes: [UIImagePickerController.SourceType] {
+        supportedSourceTypes.filter(UIImagePickerController.isSourceTypeAvailable)
+    }
+
+    /// All source types that are supported by the picker.
+    static var supportedSourceTypes: [UIImagePickerController.SourceType] {
+        [.camera, .photoLibrary, .savedPhotosAlbum]
+    }
 }
 
 public extension ImagePicker {
