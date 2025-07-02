@@ -11,8 +11,8 @@ import SwiftUI
 
 /// This struct is used by the platform-specific font picker
 /// implementations, to make the font platform-agnostic.
-public struct FontPickerFont: Identifiable {
-    
+public struct FontPickerFont: Equatable, Hashable, Identifiable, Sendable {
+
     /// Create a system picker font based on a font name.
     ///
     /// - Parameters:
@@ -24,7 +24,7 @@ public struct FontPickerFont: Identifiable {
     ) {
         let fontName = fontName.capitalized
         self.fontName = fontName
-        self.displayName = displayName ?? Self.displayName(for: fontName)
+        self.displayName = displayName ?? fontName
     }
 
     // The font name.
@@ -38,24 +38,6 @@ public extension FontPickerFont {
 
     /// The unique ID.
     var id: String { fontName.lowercased() }
-
-    /// The display name for the standard system font.
-    static var systemFontDisplayName: String {
-        #if os(macOS)
-        "Standard"
-        #else
-        "San Francisco"
-        #endif
-    }
-
-    /// The font name prefix for the standard system font.
-    static var systemFontNamePrefix: String {
-        #if os(macOS)
-        ".AppleSystemUIFont"
-        #else
-        ".SFUI"
-        #endif
-    }
 
     /// Get all available font picker fonts.
     static var allFonts: [FontPickerFont] {
@@ -81,22 +63,6 @@ public extension Collection where Element == FontPickerFont {
         let new = FontPickerFont(fontName: topmost)
         filtered.insert(new, at: 0)
         return filtered
-    }
-}
-
-public extension FontPickerFont {
-    
-    /// Get the display name for a certain font name.
-    static func displayName(for fontName: String) -> String {
-        let isSystem = isSystemFontName(fontName)
-        return isSystem ? systemFontDisplayName : fontName
-    }
-
-    /// Whether a certain font name is a system font.
-    static func isSystemFontName(_ name: String) -> Bool {
-        let name = name.trimmingCharacters(in: .whitespaces)
-        if name.isEmpty { return true }
-        return name.uppercased().hasPrefix(systemFontNamePrefix)
     }
 }
 

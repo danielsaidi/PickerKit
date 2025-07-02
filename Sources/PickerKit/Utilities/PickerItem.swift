@@ -11,6 +11,16 @@ import SwiftUI
 /// views, based on a selection state.
 public struct PickerItem<Content: View>: View {
 
+    /// Create a picker item with a non-localized title.
+    public init(
+        _ title: String,
+        isSelected: Bool
+    ) where Content == Text {
+        self.init(isSelected: isSelected) {
+            Text(title)
+        }
+    }
+
     /// Create a picker item with a localized title.
     public init(
         _ title: LocalizedStringKey,

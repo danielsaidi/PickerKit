@@ -90,7 +90,7 @@ private extension MultiPicker {
             NavigationView {
                 List {
                     MultiPicker(items: createValues(), selection: $selection1) { item, selected in
-                        MultiPickerItem(isSelected: selected) {
+                        PickerItem(isSelected: selected) {
                             Text("\(item.id)")
                         }
                     }
