@@ -1,6 +1,6 @@
 # Release Notes
 
-PickerKit will use semver after 1.0. 
+[PickerKit](https://github.com/danielsaidi/PickerKit) will use semver after 1.0.
 
 Until then, breaking changes can happen in minor versions.
 

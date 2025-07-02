@@ -71,16 +71,16 @@ PickerKit is available under the MIT license.
 
 ### Fonts
 
-- ``FontForEachPicker``
-- ``FontListPicker``
+- ``FontPicker``
 - ``FontPickerFont``
 - ``FontPickerItem``
 
 ### General
 
+- ``CancellableResult``
 - ``ForEachPicker``
-- ``ListPicker``
 - ``MultiPicker``
+- ``OptionalBinding(_:_:)``
 - ``PickerItem``
 
 ### Images
@@ -94,11 +94,6 @@ PickerKit is available under the MIT license.
 - ``ColorRepresentable``
 - ``ImageRepresentable``
 - ``FontRepresentable``
-
-### Values
-
-- ``CancellableResult``
-- ``OptionalBinding(_:_:)``
 
 
 
