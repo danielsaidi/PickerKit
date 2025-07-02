@@ -16,25 +16,28 @@ public extension ColorPickerBar {
     /// This type can be used to style a ``ColorPickerBar``.
     struct Style {
 
-        /// Create a color picker bar configuration.
+        /// Create a custom color picker bar style.
         ///
         /// - Parameters:
         ///   - animation: The animation to apply when picking color, by default `.default`.
         ///   - spacing: The bar item spacing, by default `10`.
         ///   - colorSize: The size of non-selected colors, by default `20`.
         ///   - selectedColorSize: The size of the selected color, by default `30`.
+        ///   - resetButton: Whether to add a reset button, by default `false`.
         ///   - resetButtonImage: The image to use as reset button image, by default `circle.slash`.
         public init(
             animation: Animation = .default,
             spacing: Double = 10.0,
             colorSize: Double = 20.0,
             selectedColorSize: Double = 30.0,
+            resetButton: Bool = false,
             resetButtonImage: Image = Image(systemName: "xmark.circle")
         ) {
             self.animation = animation
             self.spacing = spacing
             self.colorSize = colorSize
             self.selectedColorSize = selectedColorSize
+            self.resetButton = resetButton
             self.resetButtonImage = resetButtonImage
         }
 
@@ -50,6 +53,9 @@ public extension ColorPickerBar {
         /// The size of the selected color.
         public var selectedColorSize: Double
 
+        /// Whether to add a reset button to the picker bar.
+        public var resetButton: Bool
+
         /// The image to use as reset button image
         public var resetButtonImage: Image
     }
@@ -57,13 +63,13 @@ public extension ColorPickerBar {
 
 public extension ColorPickerBar.Style {
 
-    /// The standard color picked bar style.
+    /// A standard color picker bar style.
     static var standard: Self { .init() }
 }
 
 public extension View {
 
-    /// Apply a ``ColorPickerBar/Style`` style to the view.
+    /// Apply a custom ``ColorPickerBar/Style``.
     func colorPickerBarStyle(
         _ style: ColorPickerBar.Style
     ) -> some View {

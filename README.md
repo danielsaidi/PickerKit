@@ -40,8 +40,8 @@ PickerKit has many pickers and picker-related views.
 * ``Camera`` can be used to take photos and handle them as images.
 * ``ColorPickerBar`` adds a color picker to a horizontal or vertical bar with additional colors.
 * ``DocumentScanner`` can be used to scan documents and handle them as images.
-* ``FilePicker`` can be used to pick any file from the Files app.
-* ``ImagePicker`` can be used to pick images from the user's photo library.
+* ``FilePicker`` can be used to pick files from the Files app.
+* ``ImagePicker`` can be used to pick images from the  photo library.
 * ``MultiPicker`` can be used to pick multiple items in e.g. a list or form.
 
 Note that you must add the proper permissions to be able to access the camera, photo album, files, etc. See the documentation for each view for more information.

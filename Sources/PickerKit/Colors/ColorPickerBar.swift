@@ -11,15 +11,15 @@ import Foundation
 #if os(iOS) || os(macOS) || os(visionOS)
 import SwiftUI
 
-/// This color picker will present a SwiftUI color picker in
-/// a horizontal or vertical bar with additional colors.
+/// This color picker adds an additional bar of extra colors
+/// to a SwiftUI `ColorPicker`.
 ///
 /// The picker supports both optional and non-optional color
-/// values and can customize which colors to show in the bar.
+/// values. You can customize which colors to add to the bar,
+/// whether to the picker supports opacity, etc.
 ///
-/// You can configure and style the color picker by applying
-/// the ``SwiftUICore/View/colorPickerBarConfig(_:)`` and
-/// ``SwiftUICore/View/colorPickerBarStyle(_:)`` view modifiers
+/// You can use ``SwiftUICore/View/colorPickerBarStyle(_:)``
+/// to apply a custom color picker bar style.
 public struct ColorPickerBar: View {
 
     /// Create a color picker bar with an optional binding.
@@ -29,16 +29,25 @@ public struct ColorPickerBar: View {
     ///   - titleBundle: The picker title localization bundle, by default `.main`.
     ///   - axis: The picker axis, by default `.horizontal`.
     ///   - value: An optional color value binding.
+    ///   - colors: The colors to add to the bar, by default `.standardColorPickerBarColors`.
+    ///   - resetValue: An optional reset value, by default `nil`.
+    ///   - supportsOpacity: Whether to support opacity, by default `true`.
     public init(
         _ title: String.LocalizationValue = "Pick Color",
         titleBundle: Bundle = .main,
         axis: Axis = .horizontal,
-        value: Binding<Color?>
+        value: Binding<Color?>,
+        colors: [Color] = .standardColorPickerBarColors,
+        resetValue: Color? = nil,
+        supportsOpacity: Bool = true
     ) {
         self.title = title
         self.titleBundle = titleBundle
         self.axis = axis
         self.value = value
+        self.colors = colors
+        self.resetValue = resetValue
+        self.supportsOpacity = supportsOpacity
     }
 
     /// Create a color picker bar with a non-optional binding.
@@ -48,30 +57,41 @@ public struct ColorPickerBar: View {
     ///   - titleBundle: The picker title localization bundle, by default `.main`.
     ///   - axis: The picker axis, by default `.horizontal`.
     ///   - value: An non-optional color value binding.
+    ///   - colors: The colors to add to the bar, by default `.standardColorPickerBarColors`.
+    ///   - resetValue: An optional reset value, by default `nil`.
+    ///   - supportsOpacity: Whether to support opacity, by default `true`.
     public init(
         _ title: String.LocalizationValue,
         titleBundle: Bundle = .main,
         axis: Axis = .horizontal,
-        value: Binding<Color>
+        value: Binding<Color>,
+        colors: [Color] = .standardColorPickerBarColors,
+        resetValue: Color? = nil,
+        supportsOpacity: Bool = true
     ) {
-        self.title = title
-        self.titleBundle = titleBundle
-        self.axis = axis
-        self.value = .init(get: {
-            value.wrappedValue
-        }, set: {
-            value.wrappedValue = $0 ?? .clear
-        })
+        let optionalBinding: Binding<Color?> = .init(
+            get: { value.wrappedValue },
+            set: { value.wrappedValue = $0 ?? .clear }
+        )
+        self.init(
+            title,
+            titleBundle: titleBundle,
+            axis: axis,
+            value: optionalBinding,
+            colors: colors,
+            resetValue: resetValue,
+            supportsOpacity: supportsOpacity
+        )
     }
 
     private let title: String.LocalizationValue
     private let titleBundle: Bundle
     private let axis: Axis
     private let value: Binding<Color?>
-    
-    @Environment(\.colorPickerBarConfig)
-    private var config: Config
-    
+    private let colors: [Color]
+    private var resetValue: Color?
+    private var supportsOpacity: Bool
+
     @Environment(\.colorPickerBarStyle)
     private var style: Style
 
@@ -97,7 +117,7 @@ public struct ColorPickerBar: View {
     @ViewBuilder
     var bodyContent: some View {
         picker
-        if !config.barColors.isEmpty {
+        if !colors.isEmpty {
             divider
             scrollView
         }
@@ -142,7 +162,7 @@ private extension ColorPickerBar {
         ColorPicker(
             String(localized: title, bundle: titleBundle),
             selection: value ?? .clear,
-            supportsOpacity: config.opacity
+            supportsOpacity: supportsOpacity
         )
         .fixedSize()
         .padding(pickerPaddingEdge, style.spacing)
@@ -154,7 +174,7 @@ private extension ColorPickerBar {
 
     var resetButton: some View {
         Button {
-            value.wrappedValue = config.resetValue
+            value.wrappedValue = resetValue
         } label: {
             style.resetButtonImage
                 .resizable()
@@ -190,7 +210,7 @@ private extension ColorPickerBar {
     }
 
     var scrollViewStackContent: some View {
-        ForEach(Array(config.barColors.enumerated()), id: \.offset) {
+        ForEach(Array(colors.enumerated()), id: \.offset) {
             colorButton(for: $0.element)
         }
     }
@@ -232,11 +252,11 @@ private extension ColorPickerBar {
 private extension ColorPickerBar {
 
     var hasChanges: Bool {
-        value.wrappedValue != config.resetValue
+        value.wrappedValue != resetValue
     }
 
     var shouldShowResetButton: Bool {
-        config.resetButton && hasChanges
+        style.resetButton && hasChanges
     }
 
     func isSelected(_ color: Color) -> Bool {
@@ -251,7 +271,7 @@ private extension ColorPickerBar {
 public extension Collection where Element == Color {
 
     /// Get a standard list of `ColorPickerBar` colors.
-    static var colorPickerBarColors: [Color] {
+    static var standardColorPickerBarColors: [Color] {
         [
             .black, .gray, .white,
             .red, .pink, .orange, .yellow,
@@ -260,8 +280,12 @@ public extension Collection where Element == Color {
         ]
     }
 
-    static func colorPickerBarColors(withClearColor: Bool) -> [Color] {
-        let standard = colorPickerBarColors
+    /// Get a standard list of `ColorPickerBar` colors, with
+    /// an optional clear color.
+    static func standardColorPickerBarColors(
+        withClearColor: Bool
+    ) -> [Color] {
+        let standard = standardColorPickerBarColors
         guard withClearColor else { return standard }
         return [.clear] + standard
     }
@@ -279,8 +303,8 @@ private struct Preview: View {
     @ViewBuilder
     var pickerStack: some View {
         switch axis {
-        case .horizontal: VStack { pickerStackContent }
-        case .vertical: HStack { pickerStackContent }
+        case .horizontal: VStack { pickerStackContent }.padding([.leading, .vertical])
+        case .vertical: HStack { pickerStackContent }.padding([.top, .horizontal])
         }
     }
 
@@ -289,11 +313,9 @@ private struct Preview: View {
         ColorPickerBar(
             "Pick Color",
             axis: axis,
-            value: $color1
+            value: $color1,
+            colors: [.red, .green, .blue]
         )
-        .colorPickerBarConfig(.init(
-            barColors: [.red, .green, .blue]
-        ))
         ColorPickerBar(
             "Pick Color",
             axis: axis,
@@ -307,18 +329,15 @@ private struct Preview: View {
         ColorPickerBar(
             "Pick Color",
             axis: axis,
-            value: $color4
+            value: $color4,
+            colors: .standardColorPickerBarColors(withClearColor: true),
+            resetValue: nil,
+            supportsOpacity: false
         )
-        .colorPickerBarConfig(.init(
-            barColors: .colorPickerBarColors(withClearColor: true),
-            opacity: false,
-            resetButton: true,
-            resetValue: nil
-        ))
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             pickerStack
             pickerStack
                 .background(Color.black)
