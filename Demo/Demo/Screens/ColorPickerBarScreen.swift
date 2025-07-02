@@ -11,7 +11,7 @@ import SwiftUI
 struct ColorPickerBarScreen: View {
 
     @State var axis: Axis = .horizontal
-    @State var color: Color? = .blue
+    @State var color: Color? = .yellow
 
     var body: some View {
         ZStack(alignment: .trailing) {
@@ -41,22 +41,23 @@ struct ColorPickerBarScreen: View {
 private extension ColorPickerBarScreen {
 
     var colorPickerBar: some View {
-        ColorPickerBar(axis: axis, value: $color)
-            .padding(axis == .horizontal ? .leading : .horizontal, 10)
-            .padding(.vertical)
-            .background(.thinMaterial)
-            .colorPickerBarConfig(.init(
-                barColors: .colorPickerBarColors(withClearColor: true),
-                opacity: true,
-                resetButton: true,
-                resetValue: .black
-            ))
-            .colorPickerBarStyle(.init(
-                animation: .bouncy,
-                spacing: 10,
-                colorSize: 30,
-                selectedColorSize: 45
-            ))
+        ColorPickerBar(
+            selection: $color,
+            axis: axis,
+            colors: .standardColorPickerBarColors(withClearColor: true),
+            resetValue: .pink,
+            supportsOpacity: true
+        )
+        .padding(axis == .horizontal ? .leading : .horizontal, 10)
+        .padding(.vertical)
+        .background(.thinMaterial)
+        .colorPickerBarStyle(.init(
+            animation: .bouncy,
+            spacing: 10,
+            colorSize: 30,
+            selectedColorSize: 45,
+            resetButton: true
+        ))
     }
 }
 

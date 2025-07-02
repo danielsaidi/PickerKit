@@ -85,6 +85,7 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
+				ORGANIZATIONNAME = "Daniel Saidi";
 				TargetAttributes = {
 					A993A43F2DF82DB10031E8B3 = {
 						CreatedOnToolsVersion = 16.4;

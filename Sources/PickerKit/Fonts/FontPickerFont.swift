@@ -91,9 +91,17 @@ private extension UIFont {
 }
 #endif
 
+/// Create a ``FontPickerFont``-based font.
+func Font(
+    _ font: FontPickerFont,
+    size: Double
+) -> Font {
+    .custom(font.fontName, size: size)
+}
+
 public extension Font {
 
-    /// Create a custom font from a ``FontPickerFont``.
+    /// Create a ``FontPickerFont``-based font.
     static func custom(
         _ font: FontPickerFont,
         size: Double

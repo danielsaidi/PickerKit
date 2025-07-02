@@ -16,7 +16,7 @@ struct MultiPickerScreen: View {
         var name: String { "Item \(id + 1)" }
     }
 
-    @State private var items = (0..<10).map(Model.init)
+    @State private var items = (0..<5).map(Model.init)
     @State private var selection1: [Model] = []
     @State private var selection2: [Model] = []
     @State private var selection3: [Model] = []
@@ -39,7 +39,7 @@ struct MultiPickerScreen: View {
                 items: items,
                 selection: selection
             ) { item, isSelected in
-                MultiPickerItem(isSelected: isSelected) {
+                PickerItem(isSelected: isSelected) {
                     Text(item.name).tag(item)
                 }
             }

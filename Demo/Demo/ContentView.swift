@@ -21,6 +21,11 @@ struct ContentView: View {
                         FilePickerScreen()
                     }
                 }
+                Section("Fonts") {
+                    NavigationLink("Font Picker") {
+                        FontPickerScreen()
+                    }
+                }
                 Section("Images") {
                     NavigationLink("Camera") {
                         CameraScreen()
@@ -32,7 +37,10 @@ struct ContentView: View {
                         ImagePickerScreen()
                     }
                 }
-                Section("Utilities") {
+                Section("General") {
+                    NavigationLink("ForEach Picker") {
+                        ForEachPickerScreen()
+                    }
                     NavigationLink("Multi Picker") {
                         MultiPickerScreen()
                     }

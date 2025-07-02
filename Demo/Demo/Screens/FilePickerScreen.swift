@@ -17,7 +17,7 @@ struct FilePickerScreen: View {
 
     var body: some View {
         List {
-            Section("Picked files") {
+            Section("Files") {
                 if urls.isEmpty {
                     Text("None")
                 }
