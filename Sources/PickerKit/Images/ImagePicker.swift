@@ -79,8 +79,6 @@ public extension ImagePicker {
         case missingPickedImage
     }
 
-    typealias ImageRepresentable = UIImage
-
     /// All source types that are enabled for the picker.
     static var availableSourceTypes: [UIImagePickerController.SourceType] {
         supportedSourceTypes.filter(UIImagePickerController.isSourceTypeAvailable)

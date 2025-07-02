@@ -114,7 +114,7 @@ public extension DocumentScanner {
 public extension VNDocumentCameraScan {
 
     /// Get all the images from the scan.
-    var images: [UIImage] {
+    var images: [ImageRepresentable] {
         (0..<pageCount).compactMap {
             imageOfPage(at: $0)
         }

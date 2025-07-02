@@ -1,5 +1,6 @@
 import SwiftUI
 
+#if os(iOS) || os(macOS) || os(visionOS)
 public extension ColorPickerBar {
 
     @available(*, deprecated, renamed: "ColorPickerBar.Configuration")
@@ -55,3 +56,4 @@ public extension View {
         self.colorPickerBarConfiguration(config)
     }
 }
+#endif

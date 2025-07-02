@@ -12,6 +12,9 @@ Until then, breaking changes can happen in minor versions.
 
 * ``ColorPickerBar`` takes bar colors, reset value and supports opacity directly.
 * ``ColorPickerBar.Style`` is the new owner of the `resetButton` property.
+* ``ColorRepresentable`` is a new typealias for platform-specific color types.
+* ``ImageRepresentable`` is a new typealias for platform-specific image types.
+* ``FontRepresentable`` is a new typealias for platform-specific font types.
 
 ### 🗑️ Deprecations
 

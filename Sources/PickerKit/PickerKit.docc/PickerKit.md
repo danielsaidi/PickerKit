@@ -70,6 +70,12 @@ PickerKit is available under the MIT license.
 - ``DocumentScanner``
 - ``ImagePicker``
 
+### Multiplatform
+
+- ``ColorRepresentable``
+- ``ImageRepresentable``
+- ``FontRepresentable``
+
 ### Utilities
 
 - ``MultiPicker``
