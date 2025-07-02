@@ -64,6 +64,10 @@ PickerKit is available under the MIT license.
 
 - ``FilePicker``
 
+### Fonts
+
+- ``FontPickerFont``
+
 ### Images
 
 - ``Camera``
@@ -79,7 +83,7 @@ PickerKit is available under the MIT license.
 ### Utilities
 
 - ``MultiPicker``
-- ``MultiPickerItem``
+- ``PickerItem``
 
 ### Values
 

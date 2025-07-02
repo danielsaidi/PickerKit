@@ -1,5 +1,8 @@
 import SwiftUI
 
+@available(*, deprecated, renamed: "PickerItem")
+public typealias MultiPickerItem = PickerItem
+
 #if os(iOS) || os(macOS) || os(visionOS)
 public extension ColorPickerBar {
 

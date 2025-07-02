@@ -71,35 +71,6 @@ private extension MultiPicker {
     }
 }
 
-/// This view will automatically add a checkmark to selected
-/// items in a ``MultiPicker``.
-public struct MultiPickerItem<Content: View>: View {
-
-    public init(
-        isSelected: Bool,
-        content: @escaping () -> Content
-    ) {
-        self.isSelected = isSelected
-        self.content = content
-    }
-
-    private let isSelected: Bool
-    private let content: () -> Content
-
-    public var body: some View {
-        HStack {
-            content()
-                .frame(
-                    maxWidth: .infinity,
-                    alignment: .leading
-                )
-            if isSelected {
-                Image(systemName: "checkmark")
-            }
-        }
-    }
-}
-
 #Preview {
 
     struct PreviewModel: Identifiable {
