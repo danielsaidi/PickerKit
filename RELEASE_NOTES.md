@@ -10,11 +10,16 @@ Until then, breaking changes can happen in minor versions.
 
 ### ✨ Features
 
-* ``ColorPickerBar`` takes bar colors, reset value and supports opacity directly.
-* ``ColorPickerBar.Style`` is the new owner of the `resetButton` property.
-* ``ColorRepresentable`` is a new typealias for platform-specific color types.
-* ``ImageRepresentable`` is a new typealias for platform-specific image types.
-* ``FontRepresentable`` is a new typealias for platform-specific font types.
+* ``ColorPickerBar`` has new configuration properties.
+* ``ColorPickerBar.Style`` has a new `resetButton` property.
+* ``FontForEachPicker`` is a new `ForEach`-based font picker.
+* ``FontListPicker`` is a new `List`-based font picker.
+
+### ✨ Multiplatform Features
+
+* ``ColorRepresentable`` is a new multiplatform typealias.
+* ``ImageRepresentable`` is a new multiplatform typealias.
+* ``FontRepresentable`` is a new multiplatform typealias.
 
 ### 🗑️ Deprecations
 

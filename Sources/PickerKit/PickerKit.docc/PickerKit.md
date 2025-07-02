@@ -66,6 +66,8 @@ PickerKit is available under the MIT license.
 
 ### Fonts
 
+- ``FontForEachPicker``
+- ``FontListPicker``
 - ``FontPickerFont``
 - ``FontPickerItem``
 

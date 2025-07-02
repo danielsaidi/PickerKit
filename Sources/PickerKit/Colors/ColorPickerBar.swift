@@ -27,27 +27,27 @@ public struct ColorPickerBar: View {
     /// - Parameters:
     ///   - title: The picker title, by default "Pick Color".
     ///   - titleBundle: The picker title localization bundle, by default `.main`.
+    ///   - selection: An optional color value binding.
     ///   - axis: The picker axis, by default `.horizontal`.
-    ///   - value: An optional color value binding.
     ///   - colors: The colors to add to the bar, by default `.standardColorPickerBarColors`.
     ///   - resetValue: An optional reset value, by default `nil`.
     ///   - supportsOpacity: Whether to support opacity, by default `true`.
     public init(
         _ title: String.LocalizationValue = "Pick Color",
-        titleBundle: Bundle = .main,
-        axis: Axis = .horizontal,
-        value: Binding<Color?>,
-        colors: [Color] = .standardColorPickerBarColors,
+        titleBundle: Bundle? = nil,
+        selection: Binding<Color?>,
+        axis: Axis? = nil,
+        colors: [Color]? = nil,
         resetValue: Color? = nil,
-        supportsOpacity: Bool = true
+        supportsOpacity: Bool? = nil
     ) {
         self.title = title
-        self.titleBundle = titleBundle
-        self.axis = axis
-        self.value = value
-        self.colors = colors
+        self.titleBundle = titleBundle ?? .main
+        self.selection = selection
+        self.axis = axis ?? .horizontal
+        self.colors = colors ?? .standardColorPickerBarColors
         self.resetValue = resetValue
-        self.supportsOpacity = supportsOpacity
+        self.supportsOpacity = supportsOpacity ?? true
     }
 
     /// Create a color picker bar with a non-optional binding.
@@ -56,28 +56,28 @@ public struct ColorPickerBar: View {
     ///   - title: The picker title, by default "Pick Color".
     ///   - titleBundle: The picker title localization bundle, by default `.main`.
     ///   - axis: The picker axis, by default `.horizontal`.
-    ///   - value: An non-optional color value binding.
+    ///   - selection: An non-optional color value binding.
     ///   - colors: The colors to add to the bar, by default `.standardColorPickerBarColors`.
     ///   - resetValue: An optional reset value, by default `nil`.
     ///   - supportsOpacity: Whether to support opacity, by default `true`.
     public init(
         _ title: String.LocalizationValue,
-        titleBundle: Bundle = .main,
-        axis: Axis = .horizontal,
-        value: Binding<Color>,
-        colors: [Color] = .standardColorPickerBarColors,
+        titleBundle: Bundle? = nil,
+        selection: Binding<Color>,
+        axis: Axis? = nil,
+        colors: [Color]? = nil,
         resetValue: Color? = nil,
-        supportsOpacity: Bool = true
+        supportsOpacity: Bool? = nil
     ) {
         let optionalBinding: Binding<Color?> = .init(
-            get: { value.wrappedValue },
-            set: { value.wrappedValue = $0 ?? .clear }
+            get: { selection.wrappedValue },
+            set: { selection.wrappedValue = $0 ?? .clear }
         )
         self.init(
             title,
             titleBundle: titleBundle,
+            selection: optionalBinding,
             axis: axis,
-            value: optionalBinding,
             colors: colors,
             resetValue: resetValue,
             supportsOpacity: supportsOpacity
@@ -86,8 +86,8 @@ public struct ColorPickerBar: View {
 
     private let title: String.LocalizationValue
     private let titleBundle: Bundle
+    private let selection: Binding<Color?>
     private let axis: Axis
-    private let value: Binding<Color?>
     private let colors: [Color]
     private var resetValue: Color?
     private var supportsOpacity: Bool
@@ -132,13 +132,13 @@ private extension ColorPickerBar {
 
     func colorButton(for color: Color) -> some View {
         Button {
-            value.wrappedValue = color
+            selection.wrappedValue = color
         } label: {
             let size = scrollViewCircleSize(for: color)
             colorCircle(for: color)
                 .frame(width: size, height: size)
                 .padding(colorButtonPaddingEdge, isSelected(color) ? 0 : 5)
-                .animation(style.animation, value: value.wrappedValue)
+                .animation(style.animation, value: selection.wrappedValue)
         }
         .buttonStyle(.plain)
     }
@@ -161,7 +161,7 @@ private extension ColorPickerBar {
     var picker: some View {
         ColorPicker(
             String(localized: title, bundle: titleBundle),
-            selection: value ?? .clear,
+            selection: selection ?? .clear,
             supportsOpacity: supportsOpacity
         )
         .fixedSize()
@@ -174,7 +174,7 @@ private extension ColorPickerBar {
 
     var resetButton: some View {
         Button {
-            value.wrappedValue = resetValue
+            selection.wrappedValue = resetValue
         } label: {
             style.resetButtonImage
                 .resizable()
@@ -252,7 +252,7 @@ private extension ColorPickerBar {
 private extension ColorPickerBar {
 
     var hasChanges: Bool {
-        value.wrappedValue != resetValue
+        selection.wrappedValue != resetValue
     }
 
     var shouldShowResetButton: Bool {
@@ -260,11 +260,11 @@ private extension ColorPickerBar {
     }
 
     func isSelected(_ color: Color) -> Bool {
-        value.wrappedValue == color
+        selection.wrappedValue == color
     }
 
     func select(color: Color) {
-        value.wrappedValue = color
+        selection.wrappedValue = color
     }
 }
 
@@ -312,24 +312,24 @@ private struct Preview: View {
     var pickerStackContent: some View {
         ColorPickerBar(
             "Pick Color",
+            selection: $color1,
             axis: axis,
-            value: $color1,
             colors: [.red, .green, .blue]
         )
         ColorPickerBar(
             "Pick Color",
+            selection: $color2,
             axis: axis,
-            value: $color2
         )
         ColorPickerBar(
             "Pick Color",
+            selection: $color3,
             axis: axis,
-            value: $color3
         )
         ColorPickerBar(
             "Pick Color",
+            selection: $color4,
             axis: axis,
-            value: $color4,
             colors: .standardColorPickerBarColors(withClearColor: true),
             resetValue: nil,
             supportsOpacity: false

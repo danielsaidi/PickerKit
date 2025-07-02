@@ -36,32 +36,3 @@ public struct FontPickerItem: View {
             .tag(font)
     }
 }
-
-#Preview {
-
-    struct Preview: View {
-
-        @State var value: FontPickerFont = FontPickerFont.allFonts[0]
-
-        var body: some View {
-            List {
-                Section {
-                    Text("Text").font(value, size: 40)
-                        .frame(height: 40)
-                }
-                .listRowBackground(Color.clear)
-
-                ForEach(FontPickerFont.allFonts) { font in
-                    Button {
-                        value = font
-                    } label: {
-                        FontPickerItem(font: font, isSelected: font == value)
-                    }
-                    .tint(.primary)
-                }
-            }
-        }
-    }
-
-    return Preview()
-}
