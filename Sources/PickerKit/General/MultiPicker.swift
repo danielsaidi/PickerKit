@@ -8,8 +8,8 @@
 
 import SwiftUI
 
-/// This generic picker lists any values and binds
-/// its `selection` to an external value.
+/// This picker will list `Identifiable` items in a `ForEach`
+/// and allows you to pick multiple ones.
 ///
 /// You can use this view instead of the native `Picker`, to
 /// select multiple items in a list or form, and to get more

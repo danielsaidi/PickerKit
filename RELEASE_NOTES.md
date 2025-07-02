@@ -12,8 +12,9 @@ Until then, breaking changes can happen in minor versions.
 
 * ``ColorPickerBar`` has new configuration properties.
 * ``ColorPickerBar.Style`` has a new `resetButton` property.
-* ``FontForEachPicker`` is a new `ForEach`-based font picker.
-* ``FontListPicker`` is a new `List`-based font picker.
+* ``FontPicker`` is a new `ForEach`-based font picker.
+* ``FontPickerFont`` is a new multiplatform font representation.
+* ``ForEachPicker`` is a new `ForEach`-based value picker.
 
 ### ✨ Multiplatform Features
 

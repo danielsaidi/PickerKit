@@ -1,5 +1,5 @@
 //
-//  FontForEachPicker.swift
+//  FontPicker.swift
 //  SwiftUIKit
 //
 //  Created by Daniel Saidi on 2022-03-17.
@@ -8,11 +8,13 @@
 
 import SwiftUI
 
-/// This picker lists the provided fonts in a `ForEach`.
+/// This picker lists ``FontPickerFont`` items in a `ForEach`
+/// that properly renders each font.
 ///
-/// The view will by default render a ``FontPickerItem`` for
-/// each font, and properly render the font in the list.
-public struct FontForEachPicker<Content: View>: View {
+/// The picker supports both optional and non-optional value
+/// binding. It will wrap the provided `content` view within
+/// a regular button that applies the value when it's tapped.
+public struct FontPicker<Content: View>: View {
 
     /// Create a font picker with an optional binding.
     ///
@@ -60,21 +62,15 @@ public struct FontForEachPicker<Content: View>: View {
     private let content: (FontPickerFont) -> Content
 
     public var body: some View {
-        ForEach(fonts) { font in
-            Button {
-                selection.wrappedValue = font
-            } label: {
-                FontPickerItem(
-                    font: font,
-                    isSelected: font == selection.wrappedValue
-                )
-            }
-            .tint(.primary)
-        }
+        ForEachPicker(
+            selection: selection,
+            values: fonts,
+            content: content
+        )
     }
 }
 
-public extension FontForEachPicker where Content == FontPickerItem {
+public extension FontPicker where Content == FontPickerItem {
 
     /// Create a font picker with an optional binding.
     ///
@@ -127,7 +123,7 @@ public extension FontForEachPicker where Content == FontPickerItem {
 
         var body: some View {
             List {
-                FontForEachPicker(
+                FontPicker(
                     selection: $selection,
                     fonts: .all
                 )

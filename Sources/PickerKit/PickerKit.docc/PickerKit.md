@@ -29,16 +29,21 @@ You can [become a sponsor][Sponsors] to help me dedicate more time on my various
 
 ## Getting Started
 
-PickerKit has many pickers and picker-related views.
+PickerKit has many additional picker utilities, like:
 
-* ``Camera`` can be used to take photos and handle them as images.
-* ``ColorPickerBar`` adds a color picker to a horizontal or vertical bar with additional colors.
-* ``DocumentScanner`` can be used to scan documents and handle them as images.
-* ``FilePicker`` can be used to pick files from the Files app.
-* ``ImagePicker`` can be used to pick images from the  photo library.
-* ``MultiPicker`` can be used to pick multiple items in e.g. a list or form.
+* ``Camera`` can take photos and handle them as images.
+* ``ColorPickerBar`` adds additional colors to a color picker.
+* ``DocumentScanner`` can scan documents and handle them as images.
+* ``FilePicker`` can pick files from the Files app.
+* ``FontPicker`` can pick fonts.
+* ``ImagePicker`` can pick images from the photo library.
 
-Note that you must add the proper permissions to be able to access the camera, photo album, files, etc. See the documentation for each view for more information.
+There are also general utilities like:
+
+* ``ForEachPicker`` can be used to pick single items in a `ForEach`.
+* ``MultiPicker`` can be used to pick multiple items in a `ForEach`.
+
+Note that you must add the proper permissions to be able to access the camera, photo album, files, etc.
 
 
 
@@ -71,6 +76,13 @@ PickerKit is available under the MIT license.
 - ``FontPickerFont``
 - ``FontPickerItem``
 
+### General
+
+- ``ForEachPicker``
+- ``ListPicker``
+- ``MultiPicker``
+- ``PickerItem``
+
 ### Images
 
 - ``Camera``
@@ -82,11 +94,6 @@ PickerKit is available under the MIT license.
 - ``ColorRepresentable``
 - ``ImageRepresentable``
 - ``FontRepresentable``
-
-### Utilities
-
-- ``MultiPicker``
-- ``PickerItem``
 
 ### Values
 
