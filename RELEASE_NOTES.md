@@ -6,6 +6,14 @@ Until then, breaking changes can happen in minor versions.
 
 
 
+## 0.3
+
+### ✨ Features
+
+* ``CustomFont`` can be used to load custom fonts from any bundle.
+
+
+
 ## 0.2
 
 ### ✨ Features

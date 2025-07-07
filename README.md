@@ -41,7 +41,7 @@ PickerKit has many additional picker utilities, like:
 * ``ColorPickerBar`` adds additional colors to a color picker.
 * ``DocumentScanner`` can scan documents and handle them as images.
 * ``FilePicker`` can pick files from the Files app.
-* ``FontPicker`` can pick fonts.
+* ``FontPicker`` can pick system and custom fonts.
 * ``ImagePicker`` can pick images from the photo library.
 
 There are also general utilities like:
