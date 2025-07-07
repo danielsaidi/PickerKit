@@ -6,6 +6,14 @@ Until then, breaking changes can happen in minor versions.
 
 
 
+## 0.3.1
+
+### ✨ Features
+
+* ``CustomFont`` has a new display name property.
+
+
+
 ## 0.3
 
 ### ✨ Features

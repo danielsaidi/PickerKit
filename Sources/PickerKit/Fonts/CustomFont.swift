@@ -10,31 +10,41 @@ import SwiftUI
 
 /// This struct can be used to load custom fonts from an app
 /// or Swift Package.
+///
+/// The `name` is the font name, while the `displayName` can
+/// be used as an optional display name. The `family` can be
+/// used for grouping when loading multiple font variants of
+/// a single font.
 public struct CustomFont: Sendable {
 
     /// Create a custom font from a file folder.
     ///
     /// - Parameters:
-    ///   - name: The name of the file.
+    ///   - name: The font name.
+    ///   - displayName: The font display name, by default `name`.
     ///   - family: The font family name, by default the first name segment.
     ///   - fileName: The font file name, by default `<name>.ttf`.
     ///   - bundle: The bundle in which the file is located.
     public init(
         name: String,
+        displayName: String? = nil,
         family: String? = nil,
         fileName: String? = nil,
         bundle: Bundle = .main
     ) {
         self.name = name
+        self.displayName = displayName ?? name
         self.family = family ?? name.defaultFamily
         self.fileName = fileName ?? "\(name).ttf"
         self.bundle = bundle
     }
 
     public let name: String
+    public let displayName: String
     public let family: String
-    public let fileName: String
-    public let bundle: Bundle
+
+    private let fileName: String
+    private let bundle: Bundle
 
     public func font(size: CGFloat) -> FontRepresentable {
         registerIfNeeded()
