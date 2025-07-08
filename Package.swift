@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "PickerKit",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v15),
         .tvOS(.v15),
@@ -19,7 +20,8 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "PickerKit"
+            name: "PickerKit",
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "PickerKitTests",

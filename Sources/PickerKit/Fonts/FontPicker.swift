@@ -20,7 +20,7 @@ public struct FontPicker<Content: View>: View {
     ///
     /// - Parameters:
     ///   - selection: The selected font.
-    ///   - fonts: The fonts to display, by default `all`.
+    ///   - fonts: The fonts to display, by default `.systemFonts`.
     ///   - content: The list item content view, by default a ``FontPickerItem``.
     public init(
         selection: Binding<FontPickerFont?>,
@@ -28,7 +28,7 @@ public struct FontPicker<Content: View>: View {
         content: @escaping (FontPickerFont) -> Content
     ) {
         self.selection = selection
-        self.fonts = fonts ?? .all
+        self.fonts = fonts ?? FontPickerFont.systemFonts
         self.content = content
     }
 
@@ -85,7 +85,7 @@ public extension FontPicker where Content == FontPickerItem {
         fonts: [FontPickerFont]? = nil
     ) {
         self.selection = selection
-        self.fonts = fonts ?? .all
+        self.fonts = fonts ?? FontPickerFont.systemFonts
         self.content = { FontPickerItem(font: $0, isSelected: selection.wrappedValue == $0) }
     }
 
@@ -125,7 +125,7 @@ public extension FontPicker where Content == FontPickerItem {
             List {
                 FontPicker(
                     selection: $selection,
-                    fonts: .all
+                    fonts: .openDyslexicFonts + .systemFonts
                 )
                 .tint(.primary)
             }

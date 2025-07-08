@@ -6,11 +6,14 @@ Until then, breaking changes can happen in minor versions.
 
 
 
-## 0.3.1
+## 0.4
 
 ### ✨ Features
 
-* ``CustomFont`` has a new display name property.
+* ``CustomFont`` has new `.openDyslexic` fonts.
+* ``Font`` has new `CustomFont`-based font builders.
+* ``FontPickerFont`` has new `.openDyslexic` fonts.
+* ``FontPickerFont`` has new `CustomFont`-based font builders.
 
 
 
@@ -18,7 +21,7 @@ Until then, breaking changes can happen in minor versions.
 
 ### ✨ Features
 
-* ``CustomFont`` can be used to load custom fonts from any bundle.
+* ``CustomFont`` can be used to handle custom fonts.
 
 
 

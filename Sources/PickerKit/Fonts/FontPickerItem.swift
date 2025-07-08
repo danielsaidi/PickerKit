@@ -31,8 +31,11 @@ public struct FontPickerItem: View {
     private let isSelected: Bool
     
     public var body: some View {
-        PickerItem(font.displayName, isSelected: isSelected)
-            .font(font, size: fontSize)
-            .tag(font)
+        PickerItem(
+            font.displayName,
+            isSelected: isSelected
+        )
+        .font(font, size: fontSize * font.pickerDisplayScale)
+        .tag(font)
     }
 }

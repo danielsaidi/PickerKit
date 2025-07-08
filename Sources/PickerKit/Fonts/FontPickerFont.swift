@@ -9,8 +9,15 @@
 import Foundation
 import SwiftUI
 
-/// This struct is used by the platform-specific font picker
-/// implementations, to make the font platform-agnostic.
+/// A platform-agnostic font picker font.
+///
+/// You can use ``systemFonts`` to get all system fonts that
+/// are provided by the operating system.
+///
+/// You can create a ``CustomFont``-based picker font if you
+/// want to add custom fonts to the picker. When you do, the
+/// ``pickerDisplayScale`` can be used to harmonize the font
+/// display size in the picker.
 public struct FontPickerFont: Equatable, Hashable, Identifiable, Sendable {
 
     /// Create a system picker font based on a font name.
@@ -23,25 +30,43 @@ public struct FontPickerFont: Equatable, Hashable, Identifiable, Sendable {
         displayName: String? = nil
     ) {
         let fontName = fontName.capitalized
-        self.fontName = fontName
+        self.name = fontName
         self.displayName = displayName ?? fontName
+        self.pickerDisplayScale = 1
     }
 
+    /// Create a system picker font based on a custom font.
+    ///
+    /// - Parameters:
+    ///   - font: The custom font to use.
+    ///   - pickerDisplayScale: The picker display scale, by default `1`.
+    public init(
+        from font: CustomFont,
+        pickerDisplayScale: Double = 1
+    ) {
+        self.name = font.name
+        self.displayName = font.displayName
+        self.pickerDisplayScale = pickerDisplayScale
+    }
+
+    /// The font's unique identifier.
+    public var id: String { name }
+
     // The font name.
-    public let fontName: String
+    public let name: String
 
     /// The font display name
     public let displayName: String
+
+    /// The font size scale to apply in the picker
+    public let pickerDisplayScale: Double
 }
 
 public extension FontPickerFont {
 
-    /// The unique ID.
-    var id: String { fontName.lowercased() }
-
     /// Get all available font picker fonts.
-    static var allFonts: [FontPickerFont] {
-        let all = FontRepresentable.allFonts
+    static var systemFonts: [FontPickerFont] {
+        let all = FontRepresentable.systemFonts
         let sorted = all.sorted { $0.displayName < $1.displayName }
         return sorted
     }
@@ -50,53 +75,63 @@ public extension FontPickerFont {
 public extension Collection where Element == FontPickerFont {
     
     /// Get all available font picker fonts.
-    static var all: [FontPickerFont] {
-        Element.allFonts
+    static var systemFonts: [FontPickerFont] {
+        Element.systemFonts
     }
     
     /// Move a certain font topmost in the list.
     func moveTopmost(_ topmost: String) -> [FontPickerFont] {
         let topmost = topmost.trimmingCharacters(in: .whitespaces)
-        let exists = contains { $0.fontName.lowercased() == topmost.lowercased() }
+        let exists = contains { $0.name.lowercased() == topmost.lowercased() }
         guard exists else { return Array(self) }
-        var filtered = filter { $0.fontName.lowercased() != topmost.lowercased() }
+        var filtered = filter { $0.name.lowercased() != topmost.lowercased() }
         let new = FontPickerFont(fontName: topmost)
         filtered.insert(new, at: 0)
         return filtered
     }
 }
 
-#if canImport(AppKit) && !targetEnvironment(macCatalyst)
-import AppKit
+private extension FontRepresentable {
 
-private extension NSFont {
-    
-    /// Get all available NSFont families.
-    static var allFonts: [FontPickerFont] {
+    /// Get all available system fonts.
+    static var systemFonts: [FontPickerFont] {
+        #if canImport(AppKit) && !targetEnvironment(macCatalyst)
         NSFontManager.shared
             .availableFontFamilies
             .map { FontPickerFont(fontName: $0) }
-    }
-}
-#else
-import UIKit
-
-private extension UIFont {
-    
-    /// Get all available NSFont families.
-    static var allFonts: [FontPickerFont] {
+        #else
         UIFont.familyNames
             .map { FontPickerFont(fontName: $0) }
+        #endif
     }
 }
-#endif
 
-/// Create a ``FontPickerFont``-based font.
-func Font(
-    _ font: FontPickerFont,
-    size: Double
-) -> Font {
-    .custom(font.fontName, size: size)
+public extension Font {
+
+    /// Returns a ``FontPickerFont`` with a dynamic size.
+    static func dynamic(
+      _ font: FontPickerFont,
+      size: CGFloat
+    ) -> Font {
+        .custom(font.name, size: size)
+    }
+
+    /// Returns a ``FontPickerFont`` with a fixed size.
+    static func fixed(
+      _ font: FontPickerFont,
+      size: CGFloat
+    ) -> Font {
+        .custom(font.name, fixedSize: size)
+    }
+
+    /// Returns a ``FontPickerFont`` with a style-relative size.
+    static func relative(
+        _ font: FontPickerFont,
+        size: CGFloat,
+        relativeTo style: Font.TextStyle
+    ) -> Font {
+        .custom(font.name, size: size, relativeTo: style)
+    }
 }
 
 public extension Font {
@@ -106,7 +141,7 @@ public extension Font {
         _ font: FontPickerFont,
         size: Double
     ) -> Font {
-        .custom(font.fontName, size: size)
+        .custom(font.name, size: size)
     }
 }
 
@@ -124,8 +159,8 @@ public extension View {
 #Preview {
 
     List {
-        ForEach(FontPickerFont.allFonts) { font in
-            Text(font.fontName)
+        ForEach(FontPickerFont.systemFonts) { font in
+            Text(font.name)
                 .font(font, size: 20)
         }
     }
