@@ -15,9 +15,14 @@ import SwiftUI
 /// binding. It will wrap the provided `content` view within
 /// a regular button that applies the value when it's tapped.
 ///
-/// You can extend ``FontPickerFont`` to handle ``CustomFont``
-/// based fonts. This makes it very easy to add custom fonts
-/// to the font picker.
+/// Any ``CustomFont`` you resolve is automatically added to
+/// the font picker, since the initializer will register the
+/// font. If multiple custom fonts share a font family, this
+/// picker will only show the base font.
+///
+/// You can create a ``FontPickerFont`` for any ``CustomFont``
+/// and explicitly add it to the picker, if you want control
+/// over where the font is added.
 public struct FontPicker<Content: View>: View {
 
     /// Create a font picker with an optional binding.
@@ -127,11 +132,18 @@ public extension FontPicker where Content == FontPickerItem {
 
         var body: some View {
             List {
-                FontPicker(
-                    selection: $selection,
-                    fonts: .openDyslexicFonts + .systemFonts
-                )
-                .tint(.primary)
+                Section {
+                    FontPicker(
+                        selection: $selection,
+                        fonts: .openDyslexicFonts
+                    )
+                }
+                Section {
+                    FontPicker(
+                        selection: $selection,
+                        fonts: .systemFonts
+                    )
+                }
             }
         }
     }

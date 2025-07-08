@@ -20,7 +20,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/danielsaidi/FontKit",
-            .upToNextMajor(from: "0.1.0")
+            .upToNextMajor(from: "0.1.4")
         )
     ],
     targets: [

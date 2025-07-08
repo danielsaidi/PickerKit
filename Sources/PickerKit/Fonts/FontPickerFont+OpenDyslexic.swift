@@ -12,31 +12,24 @@ import SwiftUI
 
 public extension FontPickerFont {
 
-    /// The OpenDyslexic picker display scale.
-    static let openDyslexicPickerDisplayScale: Double = 0.75
-
     /// A regular OpenDyslexic font variant.
     static let openDyslexic = FontPickerFont(
-        from: .openDyslexic,
-        pickerDisplayScale: openDyslexicPickerDisplayScale
+        from: .openDyslexic
     )
 
     /// A bold OpenDyslexic font variant.
     static let openDyslexicBold = FontPickerFont(
-        from: .openDyslexicBold,
-        pickerDisplayScale: openDyslexicPickerDisplayScale
+        from: .openDyslexicBold
     )
 
     /// A bold italic OpenDyslexic font variant.
     static let openDyslexicBoldItalic = FontPickerFont(
-        from: .openDyslexicBoldItalic,
-        pickerDisplayScale: openDyslexicPickerDisplayScale
+        from: .openDyslexicBoldItalic
     )
 
     /// An italic OpenDyslexic font variant.
     static let openDyslexicItalic = FontPickerFont(
-        from: .openDyslexicItalic,
-        pickerDisplayScale: openDyslexicPickerDisplayScale
+        from: .openDyslexicItalic
     )
 }
 
@@ -61,10 +54,14 @@ public extension Collection where Element == FontPickerFont {
 
 #Preview {
 
+    let size = 15.0
+
     List {
+        Text("OpenDyslexic")
+            .font(.system(size: size))
         ForEach(FontPickerFont.openDyslexicFonts) { font in
             Text(font.displayName)
-                .font(.fixed(font, size: 15))
+                .font(.fixed(font, size: size))
         }
     }
 }

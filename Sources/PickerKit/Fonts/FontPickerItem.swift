@@ -35,7 +35,8 @@ public struct FontPickerItem: View {
             font.displayName,
             isSelected: isSelected
         )
-        .font(font, size: fontSize * font.pickerDisplayScale)
+        .font(.dynamic(font, size: fontSize))
+        .lineLimit(1)
         .tag(font)
     }
 }

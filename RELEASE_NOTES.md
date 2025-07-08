@@ -6,6 +6,14 @@ Until then, breaking changes can happen in minor versions.
 
 
 
+## 0.4.2
+
+### 💡 Adjustments
+
+* `FontPickerFont` now conforms to `CustomFontRepresentable`.
+
+
+
 ## 0.4.1
 
 ### 💡 Adjustments

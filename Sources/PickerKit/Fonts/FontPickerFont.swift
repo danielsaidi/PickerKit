@@ -6,6 +6,7 @@
 //  Copyright © 2022-2025 Daniel Saidi. All rights reserved.
 //
 
+import FontKit
 import Foundation
 import SwiftUI
 
@@ -14,11 +15,9 @@ import SwiftUI
 /// You can use ``systemFonts`` to get all system fonts that
 /// are provided by the operating system.
 ///
-/// You can create a ``CustomFont``-based picker font if you
-/// want to add custom fonts to the picker. When you do, the
-/// ``pickerDisplayScale`` can be used to harmonize the font
-/// display size in the picker.
-public struct FontPickerFont: Codable, Equatable, Hashable, Identifiable, Sendable {
+/// You can create a ``CustomFont``-based font to use custom
+/// fonts with the font picker.
+public struct FontPickerFont: Codable, CustomFontRepresentable, Equatable, Hashable, Identifiable, Sendable {
 
     /// Create a system picker font based on a font name.
     ///
@@ -32,21 +31,19 @@ public struct FontPickerFont: Codable, Equatable, Hashable, Identifiable, Sendab
         let fontName = fontName.capitalized
         self.name = fontName
         self.displayName = displayName ?? fontName
-        self.pickerDisplayScale = 1
+        self.systemFontScaleFactor = 1
     }
 
     /// Create a system picker font based on a custom font.
     ///
     /// - Parameters:
     ///   - font: The custom font to use.
-    ///   - pickerDisplayScale: The picker display scale, by default `1`.
     public init(
-        from font: CustomFont,
-        pickerDisplayScale: Double = 1
+        from font: CustomFont
     ) {
         self.name = font.name
         self.displayName = font.displayName
-        self.pickerDisplayScale = pickerDisplayScale
+        self.systemFontScaleFactor = font.systemFontScaleFactor
     }
 
     /// The font's unique identifier.
@@ -58,8 +55,8 @@ public struct FontPickerFont: Codable, Equatable, Hashable, Identifiable, Sendab
     /// The font display name
     public let displayName: String
 
-    /// The font size scale to apply in the picker
-    public let pickerDisplayScale: Double
+    /// The approximate system font scale factor.
+    public let systemFontScaleFactor: Double
 }
 
 public extension FontPickerFont {
@@ -106,77 +103,12 @@ private extension FontRepresentable {
     }
 }
 
-public extension Font {
-
-    /// Returns a ``FontPickerFont`` with a dynamic size.
-    static func dynamic(
-      _ font: FontPickerFont?,
-      size: CGFloat,
-      fallback: Font = .body
-    ) -> Font {
-        if let font {
-            .custom(font.name, size: size)
-        } else {
-            fallback
-        }
-    }
-
-    /// Returns a ``FontPickerFont`` with a fixed size.
-    static func fixed(
-      _ font: FontPickerFont?,
-      size: CGFloat,
-      fallback: Font = .body
-    ) -> Font {
-        if let font {
-            .custom(font.name, fixedSize: size)
-        } else {
-            fallback
-        }
-    }
-
-    /// Returns a ``FontPickerFont`` with a style-relative size.
-    static func relative(
-        _ font: FontPickerFont?,
-        size: CGFloat,
-        relativeTo style: Font.TextStyle,
-        fallback: Font = .body
-    ) -> Font {
-        if let font {
-            .custom(font.name, size: size, relativeTo: style)
-        } else {
-            fallback
-        }
-    }
-}
-
-public extension Font {
-
-    /// Create a ``FontPickerFont``-based font.
-    static func custom(
-        _ font: FontPickerFont,
-        size: Double
-    ) -> Font {
-        .custom(font.name, size: size)
-    }
-}
-
-public extension View {
-
-    /// Apply a certain ``FontPickerFont``.
-    func font(
-        _ font: FontPickerFont,
-        size: Double
-    ) -> some View {
-        self.font(.custom(font, size: size))
-    }
-}
-
 #Preview {
 
     List {
         ForEach(FontPickerFont.systemFonts) { font in
             Text(font.name)
-                .font(font, size: 20)
+                .font(.fixed(font, size: 15))
         }
     }
 }
