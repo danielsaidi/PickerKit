@@ -6,13 +6,21 @@ Until then, breaking changes can happen in minor versions.
 
 
 
+## 0.4.1
+
+### 💡 Adjustments
+
+* `FontPickerFont` now conforms to `Codable`.
+
+
+
 ## 0.4
 
 ### ✨ Features
 
-* ``Font`` has new `CustomFont`-based font builders.
-* ``FontPickerFont`` has new `.openDyslexic` fonts.
-* ``FontPickerFont`` has new `CustomFont`-based font builders.
+* `Font` has new `CustomFont`-based font builders.
+* `FontPickerFont` has new `.openDyslexic` fonts.
+* `FontPickerFont` has new `CustomFont`-based font builders.
 
 ### 📦 Package Changes
 

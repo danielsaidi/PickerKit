@@ -18,7 +18,7 @@ import SwiftUI
 /// want to add custom fonts to the picker. When you do, the
 /// ``pickerDisplayScale`` can be used to harmonize the font
 /// display size in the picker.
-public struct FontPickerFont: Equatable, Hashable, Identifiable, Sendable {
+public struct FontPickerFont: Codable, Equatable, Hashable, Identifiable, Sendable {
 
     /// Create a system picker font based on a font name.
     ///
