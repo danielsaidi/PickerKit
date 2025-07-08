@@ -14,6 +14,10 @@ import SwiftUI
 /// The picker supports both optional and non-optional value
 /// binding. It will wrap the provided `content` view within
 /// a regular button that applies the value when it's tapped.
+///
+/// You can extend ``FontPickerFont`` to handle ``CustomFont``
+/// based fonts. This makes it very easy to add custom fonts
+/// to the font picker.
 public struct FontPicker<Content: View>: View {
 
     /// Create a font picker with an optional binding.

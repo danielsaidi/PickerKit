@@ -10,10 +10,13 @@ Until then, breaking changes can happen in minor versions.
 
 ### ✨ Features
 
-* ``CustomFont`` has new `.openDyslexic` fonts.
 * ``Font`` has new `CustomFont`-based font builders.
 * ``FontPickerFont`` has new `.openDyslexic` fonts.
 * ``FontPickerFont`` has new `CustomFont`-based font builders.
+
+### 📦 Package Changes
+
+* `CustomFont` has been moved to https://github.com/danielsaidi/FontKit
 
 
 

@@ -4,7 +4,6 @@ import PackageDescription
 
 let package = Package(
     name: "PickerKit",
-    defaultLocalization: "en",
     platforms: [
         .iOS(.v15),
         .tvOS(.v15),
@@ -18,10 +17,16 @@ let package = Package(
             targets: ["PickerKit"]
         )
     ],
+    dependencies: [
+        .package(
+            url: "https://github.com/danielsaidi/FontKit",
+            .upToNextMajor(from: "0.1.0")
+        )
+    ],
     targets: [
         .target(
             name: "PickerKit",
-            resources: [.process("Resources")]
+            dependencies: ["FontKit"]
         ),
         .testTarget(
             name: "PickerKitTests",
