@@ -110,27 +110,42 @@ public extension Font {
 
     /// Returns a ``FontPickerFont`` with a dynamic size.
     static func dynamic(
-      _ font: FontPickerFont,
-      size: CGFloat
+      _ font: FontPickerFont?,
+      size: CGFloat,
+      fallback: Font = .body
     ) -> Font {
-        .custom(font.name, size: size)
+        if let font {
+            .custom(font.name, size: size)
+        } else {
+            fallback
+        }
     }
 
     /// Returns a ``FontPickerFont`` with a fixed size.
     static func fixed(
-      _ font: FontPickerFont,
-      size: CGFloat
+      _ font: FontPickerFont?,
+      size: CGFloat,
+      fallback: Font = .body
     ) -> Font {
-        .custom(font.name, fixedSize: size)
+        if let font {
+            .custom(font.name, fixedSize: size)
+        } else {
+            fallback
+        }
     }
 
     /// Returns a ``FontPickerFont`` with a style-relative size.
     static func relative(
-        _ font: FontPickerFont,
+        _ font: FontPickerFont?,
         size: CGFloat,
-        relativeTo style: Font.TextStyle
+        relativeTo style: Font.TextStyle,
+        fallback: Font = .body
     ) -> Font {
-        .custom(font.name, size: size, relativeTo: style)
+        if let font {
+            .custom(font.name, size: size, relativeTo: style)
+        } else {
+            fallback
+        }
     }
 }
 

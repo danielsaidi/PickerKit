@@ -15,7 +15,20 @@ struct FontPickerScreen: View {
 
     var body: some View {
         List {
-            FontPicker(selection: $selection)
+            Section("Preview") {
+                Text("The quick brown fox jumps over the lazy dog.")
+                    .font(.relative(selection, size: 15, relativeTo: .body))
+            }
+
+            Section("Custom Fonts") {
+                FontPicker(
+                    selection: $selection,
+                    fonts: .openDyslexicFonts
+                )
+            }
+            Section("System Fonts") {
+                FontPicker(selection: $selection)
+            }
         }
         .navigationTitle("Font Picker")
     }
