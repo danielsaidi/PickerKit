@@ -6,6 +6,12 @@ Until then, breaking changes can happen in minor versions.
 
 
 
+## 0.5
+
+This version makes the SDK use Swift 6.1 and bumps the demo to Xcode 26.
+
+
+
 ## 0.4.2
 
 ### 💡 Adjustments
