@@ -17,7 +17,7 @@ struct FontPickerScreen: View {
         List {
             Section("Preview") {
                 Text("The quick brown fox jumps over the lazy dog.")
-                    .font(.relative(selection, size: 15, relativeTo: .body))
+                    .font(font)
             }
 
             Section("Custom Fonts") {
@@ -31,6 +31,14 @@ struct FontPickerScreen: View {
             }
         }
         .navigationTitle("Font Picker")
+    }
+}
+
+private extension FontPickerScreen {
+
+    var font: Font {
+        guard let selection else { return .body }
+        return .relative(selection, size: 15, relativeTo: .body)
     }
 }
 
