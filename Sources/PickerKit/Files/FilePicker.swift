@@ -21,11 +21,10 @@ import UniformTypeIdentifiers
 /// )
 /// ```
 ///
-/// If you pass in an external `isPresented` state, the view
-/// will automatically dismiss itself when it's done.
+/// If you pass in an `isPresented` binding, the view will automatically dismiss
+/// itself when it's done.
 ///
-/// The result contains a list of file urls that you can use
-/// in any way that you want.
+/// The result contains a list of file urls that you can use in any way that you want.
 public struct FilePicker: UIViewControllerRepresentable {
     
     /// Create a file picker.

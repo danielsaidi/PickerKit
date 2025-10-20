@@ -12,8 +12,7 @@ import SwiftUI
 
 /// This camera picker can take images and return the result.
 ///
-/// You can create this view with a result action as well as
-/// an optional `isPresented` state, to make it auto-dismiss:
+/// You can create this view with a result action and an optional `isPresented`:
 ///
 /// ```swift
 /// let picker = Camera(
@@ -22,11 +21,10 @@ import SwiftUI
 /// }
 /// ```
 ///
-/// If you pass in an external `isPresented` state, the view
-/// will automatically dismiss itself when it's done.
+/// If you pass in an `isPresented` binding, the view will automatically dismiss
+/// itself when it's done.
 ///
-/// > Important: The view requires the following permissions:
-/// `NSCameraUsageDescription`.
+/// > Important: This view needs the `NSCameraUsageDescription` permission.
 public struct Camera: View {
 
     /// Create a photo camera.

@@ -11,8 +11,7 @@ import Photos
 import SwiftUI
 import UIKit
 
-/// This image picker can be used to pick photos from Photos,
-/// pick a photo with the camera, etc.
+/// This picker can be used to pick photos from Photos, with the camera, etc.
 ///
 /// ```swift
 /// let picker = ImagePicker(
@@ -23,8 +22,8 @@ import UIKit
 /// )
 /// ```
 ///
-/// If you pass in an external `isPresented` state, the view
-/// will automatically dismiss itself when it's done.
+/// If you pass in an `isPresented` binding, the view will automatically dismiss
+/// itself when it's done. 
 public struct ImagePicker: UIViewControllerRepresentable {
     
     /// Create an image picker.

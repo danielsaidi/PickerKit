@@ -10,8 +10,7 @@ import SwiftUI
 
 /// This lets you use optional bindings with native SwiftUI.
 ///
-/// To pass in optional bindings to a non-optional parameter,
-/// just define a fallback value:
+/// To pass in optional bindings to a non-optional parameter, just define a fallback:
 ///
 /// ```swift
 /// @State

@@ -11,15 +11,13 @@ import Foundation
 #if os(iOS) || os(macOS) || os(visionOS)
 import SwiftUI
 
-/// This color picker adds an additional bar of extra colors
-/// to a SwiftUI `ColorPicker`.
+/// This color picker adds a bar of extra colors to a SwiftUI `ColorPicker`.
 ///
-/// The picker supports both optional and non-optional color
-/// values. You can customize which colors to add to the bar,
-/// whether to the picker supports opacity, etc.
+/// The picker supports both optional and non-optional colors. You can customize
+/// which colors to add to the bar, whether the picker supports opacity, etc.
 ///
-/// You can use ``SwiftUICore/View/colorPickerBarStyle(_:)``
-/// to apply a custom color picker bar style.
+/// Available view modifiers:
+///   - ``SwiftUICore/View/colorPickerBarStyle(_:)``
 public struct ColorPickerBar: View {
 
     /// Create a color picker bar with an optional binding.

@@ -10,8 +10,9 @@
 import SwiftUI
 import VisionKit
 
-/// This document scanner can scan one or several pages of a
-/// physical document.
+/// This document scanner can scan one or several pages of a physical document.
+///
+/// You can create this view with a result action and an optional `isPresented`:
 ///
 /// ```swift
 /// let camera = DocumentScanner(
@@ -20,11 +21,10 @@ import VisionKit
 /// )
 /// ```
 ///
-/// If you pass in an external `isPresented` state, the view
-/// will automatically dismiss itself when it's done.
+/// If you pass in an `isPresented` binding, the view will automatically dismiss
+/// itself when it's done.
 ///
-/// > Important: The view requires the following permissions:
-/// `NSCameraUsageDescription`.
+/// > Important: This view needs the `NSCameraUsageDescription` permission.
 public struct DocumentScanner: UIViewControllerRepresentable {
 
     /// Create a document scanner.

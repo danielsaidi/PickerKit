@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-/// This item view can be used to add a checkmark to content
-/// views, based on a selection state.
+/// This view can be used to add a checkmark to a view, based on selection state.
 public struct PickerItem<Content: View>: View {
 
     /// Create a picker item with a non-localized title.

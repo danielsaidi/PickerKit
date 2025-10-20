@@ -10,9 +10,8 @@ import SwiftUI
 
 /// This picker lists `Identifiable` values in a `ForEach`.
 ///
-/// The picker supports both optional and non-optional value
-/// binding. It will wrap the provided `content` view within
-/// a regular button that applies the value when it's tapped.
+/// The picker supports both optional and non-optional value bindings, and wraps
+/// the `content` view in a button that applies the value when it's tapped. 
 public struct ForEachPicker<Value: Identifiable, Content: View>: View {
 
     /// Create a picker with an optional binding.
