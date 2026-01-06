@@ -3,7 +3,7 @@
 //  PickerKit
 //
 //  Created by Daniel Saidi on 2020-04-07.
-//  Copyright © 2020-2025 Daniel Saidi. All rights reserved.
+//  Copyright © 2020-2026 Daniel Saidi. All rights reserved.
 //
 
 #if os(iOS)
