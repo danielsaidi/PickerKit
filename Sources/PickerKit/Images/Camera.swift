@@ -10,9 +10,7 @@
 import Photos
 import SwiftUI
 
-/// This camera picker can take images and return the result.
-///
-/// You can create this view with a result action and an optional `isPresented`:
+/// This picker can take images with the device camera.
 ///
 /// ```swift
 /// let picker = Camera(
@@ -21,10 +19,11 @@ import SwiftUI
 /// }
 /// ```
 ///
-/// If you pass in an `isPresented` binding, the view will automatically dismiss
-/// itself when it's done.
+/// If you pass in an `isPresented` binding, the picker will
+/// automatically dismiss itself when it's done.
 ///
-/// > Important: This view needs the `NSCameraUsageDescription` permission.
+/// > Important: The view needs an `NSCameraUsageDescription`
+/// to be added to `Info.plist`.
 public struct Camera: View {
 
     /// Create a photo camera.

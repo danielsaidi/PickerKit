@@ -11,7 +11,7 @@ import SwiftUI
 import UIKit
 import UniformTypeIdentifiers
 
-/// This file picker can be used to pick files from Files.
+/// This picker can be used to pick files from the Files app.
 ///
 /// ```swift
 /// let picker = FilePicker(
@@ -21,10 +21,11 @@ import UniformTypeIdentifiers
 /// )
 /// ```
 ///
-/// If you pass in an `isPresented` binding, the view will automatically dismiss
-/// itself when it's done.
+/// If you pass in an `isPresented` binding, the picker will
+/// automatically dismiss itself when it's done.
 ///
-/// The result contains a list of file urls that you can use in any way that you want.
+/// The result contains a list of file urls that you can use
+/// in any way you want.
 public struct FilePicker: UIViewControllerRepresentable {
     
     /// Create a file picker.

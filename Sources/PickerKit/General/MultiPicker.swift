@@ -8,11 +8,8 @@
 
 import SwiftUI
 
-/// This picker lists `Identifiable` items in a `ForEach`, and allows you to
-/// pick multiple items.
-///
-/// You can use this view instead of the native `Picker`, to select multiple items
-/// in a list or form, to get more control over the list item views.
+/// This picker uses a `ForEach` to list `Identifiable` type
+/// values in a custom multi `selection picker.
 public struct MultiPicker<Item: Identifiable, ItemView: View>: View {
 
     /// Create a for-each multi-picker.

@@ -12,10 +12,9 @@ import SwiftUI
 
 /// A platform-agnostic font picker font.
 ///
-/// You can use ``systemFonts`` to get all the system fonts that are provided
-/// by the operating system.
-///
-/// You can use ``CustomFont`` fonts to use custom fonts with the font picker.
+/// You can use ``systemFonts`` to get all system fonts that
+/// are provided by the OS, and use ``CustomFont`` to create
+/// a custom font reference.
 public struct FontPickerFont: Codable, CustomFontRepresentable, Equatable, Hashable, Identifiable, Sendable {
 
     /// Create a system picker font based on a font name.

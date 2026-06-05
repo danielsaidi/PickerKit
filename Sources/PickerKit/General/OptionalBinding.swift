@@ -8,13 +8,14 @@
 
 import SwiftUI
 
-/// This lets you use optional bindings with native SwiftUI.
+/// This type can wrap any optional value and let it be used
+/// together with a non-optional binding.
 ///
-/// To pass in optional bindings to a non-optional parameter, just define a fallback:
+/// To pass in an optional value to a non-optional parameter,
+/// just define a fallback value:
 ///
 /// ```swift
-/// @State
-/// var myValue: Double?
+/// @State var myValue: Double?
 ///
 /// func doSomething(with binding: Binding<Double>) { ... }
 ///

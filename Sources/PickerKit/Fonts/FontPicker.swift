@@ -8,15 +8,12 @@
 
 import SwiftUI
 
-/// This picker lists ``FontPickerFont`` items in a `ForEach` that properly
-/// renders each font.
+/// This picker can be used to pick custom fonts.
 ///
-/// The picker supports both optional and non-optional value bindings, and wraps
-/// the `content` view in a button that applies the value when it's tapped.
-///
-/// Any ``CustomFont`` you resolve is automatically added to the picker, since
-/// the initializer registers the font. If multiple custom fonts share a font family, this
-/// picker will only show the base font.
+/// Any ``CustomFont`` you resolve is automatically added to
+/// this picker, since the custom font initializer registers
+/// the font with the library. If several custom fonts share
+/// a family, the view will only show the base font.
 public struct FontPicker<Content: View>: View {
 
     /// Create a font picker with an optional binding.
@@ -77,7 +74,8 @@ public extension FontPicker where Content == FontPickerItem {
 
     /// Create a font picker with an optional binding.
     ///
-    /// This initializer applies a ``FontPickerItem`` as the item content view.
+    /// This initializer applies a ``FontPickerItem`` as the
+    /// item content view.
     ///
     /// - Parameters:
     ///   - selection: The selected font.
@@ -93,7 +91,8 @@ public extension FontPicker where Content == FontPickerItem {
 
     /// Create a font picker with a non-optional binding.
     ///
-    /// This initializer applies a ``FontPickerItem`` as the item content view. 
+    /// This initializer applies a ``FontPickerItem`` as the
+    /// item content view. 
     ///
     /// - Parameters:
     ///   - selection: The selected font.

@@ -15,7 +15,8 @@ public extension ColorPickerBar {
 
     /// This type can be used to style a ``ColorPickerBar``.
     ///
-    /// You can apply this style with ``SwiftUICore/View/colorPickerBarStyle(_:)``.
+    /// You can apply this view style with the view modifier
+    /// ``SwiftUICore/View/colorPickerBarStyle(_:)``.
     struct Style {
 
         /// Create a custom color picker bar style.
