@@ -1,13 +1,13 @@
 {
-  "originHash" : "fd57f22c58881d8a1312fdb42713abf81c24c73d69a7d6eca80ea61c6edbedc8",
+  "originHash" : "09cff55f33d9da94b3679a70c713622298eea8cfbee5fde308cf22976a076ac6",
   "pins" : [
     {
       "identity" : "fontkit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/danielsaidi/FontKit",
       "state" : {
-        "revision" : "e4d2142bc4b73cba019ea7f3928267606fee1431",
-        "version" : "0.1.4"
+        "revision" : "6d9099fca779460f1313a3964567759a0bb7041b",
+        "version" : "0.3.0"
       }
     }
   ],
